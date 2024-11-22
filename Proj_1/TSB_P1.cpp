@@ -69,10 +69,10 @@ int randomAlg(){
         currPath.insert(currPath.end(),i);
     }
     while(duration.count()<maxtime){
+        auto endT = chrono::high_resolution_clock::now();//Koniec pomiaru czasu
+        duration = endT - startT;//Czas wykonania zapisany w ns
         shuffle(begin(currPath), end(currPath), rng);
         if(showProgress){
-            auto endT = chrono::high_resolution_clock::now();//Koniec pomiaru czasu
-            duration = endT - startT;//Czas wykonania zapisany w ns
             printBar((double)duration.count()/maxtime,"Metoda losowa\t\t");
         }
         int currRes=0;
