@@ -413,7 +413,7 @@ int bfs(){
                 }
                 vector<int> newPath = currNode.path;
                 newPath.push_back(i);
-                Node child = {newPath, newCost,bound(i,graph,newPath) };
+                Node child = {newPath, newCost,0 };
                 if (child.bound < res) {
                     bfsQueue.push(child);
                 }
@@ -604,7 +604,7 @@ void write_header(string funcName){
     outputFile.close();
 }
 void print_rows(int count,int k,int i,int j,int bigGraph){
-    system("cls");
+    system("clear");
     printBar((double)count/5,"Caly program \t\t");
     cout<<"\n";
     printBar((double)k/2,"Symetria \t\t");
@@ -620,17 +620,17 @@ void testFunc(int count,string funcName,function<int()> func){
     int iterations = config["settings"]["iterations"];
     int density[] = {30,60,100};
     bool sym = true;
-    string fileNameOut = "\\Wyniki\\"+funcName+"resoult.csv";
+    string fileNameOut = "/Wyniki/"+funcName+"resoult.csv";
     config["instance"]["outputFile"] = fileNameOut;
     for(int k=0;k<2;k++){
         for(int i=0;i<3;i++){
             print_rows(count,k,i,0,bigGraph);
             for(int j=smallGraph;j<bigGraph;j++){
-                string fileName = "\\Dane\\";
+                string fileName = "/Dane/";
                 if(sym){
-                    fileName.append("SYM"+to_string(density[i])+"\\");
+                    fileName.append("SYM"+to_string(density[i])+"/");
                 }else{
-                    fileName.append("ASYM"+to_string(density[i])+"\\");
+                    fileName.append("ASYM"+to_string(density[i])+"/");
                 }
                 fileName.append("GRAF"+to_string(j)+"_"+to_string(density[i])+".txt");
                 config["instance"]["inputFile"] = fileName;
@@ -735,7 +735,8 @@ int main(){
         cout<<"Nie znaleziono funkcji\n";
     }
     cout<<"Program zakonczony\n";
-    system("pause");
+    cout << "Press Enter to continue..." << std::endl;
+    cin.get();
     return 0;
 }
 

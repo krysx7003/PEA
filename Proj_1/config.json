@@ -1,10 +1,10 @@
 {
     "settings": {
-      "showProgress": true,   "_comment1": "Pokazuje ile instancji już wykonano. Nie powinno wpływać na czas wykonania algorytmów",
+      "showProgress": true,   "_comment1": "Pokazuje progres w procedurze badawczej. Nie powinno wpływać na czas wykonania algorytmów",
       "printToConsol": true,  "_comment2": "Możliwość schowania wyświetlenia wyników w konsoli. Do testów żeby pasek postępu był bardziej widoczny", 
       "iterations": 10,        "_comment3": "Ilość iteracji wybranego algorytmu",
       "maxDisplaySize": 16,   "_comment4": "Maksymalna szerokość ścieżki do wyświetlenia",
-      "time": 10,             "_comment5": "Ograniczenie czasowe algorytmu (Podane w minutach)",
+      "time": 2,             "_comment5": "Ograniczenie czasowe algorytmu (Podane w minutach)",
       "barWidth": 20,         "_comment6": "Szerokość paska postępu",
       "test": true,           "_comment7": "Jeżeli false włączona zostaje procedura badawcza",
       "bigGraph": 13,         "_comment8": "Rozmiar największego grafu w procedurze badawczej",
@@ -12,9 +12,9 @@
     },
     "csvTitleString": "Optymalny wynik,Optymalna scieżka,Otrzymany wynik,Otrzymana scieżka,Czas wykonania,Blad bezwzgledny,Blad wzgledny (liczbowo),Blad wzgledny (procentowo)",
     "instance": {
-        "algorithName": "brute-force",          "_comment1":"Nazwa wybranego algorytmu.Musi odpowiadać jednej z nazw w sekcji algorithms",
-        "inputFile": "\\Dane\\Adam11.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
-        "outputFile": "\\Wyniki\\finalresoult.csv", "_comment3":"Nazwa pliku wyjściowego",
+        "algorithName": "bfs",          "_comment1":"Nazwa wybranego algorytmu.Musi odpowiadać jednej z nazw w sekcji algorithms",
+        "inputFile": "/Dane/Adam11.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
+        "outputFile": "/Wyniki/finalresoult.csv", "_comment3":"Nazwa pliku wyjściowego",
         "size": 11,                             "_comment4":"Rozmiar macierzy",
         "optimalRes": 149,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
         "optimalPath": "" ,                     "_comment6":"Optymalna scieżka. Wyświetlana w konsoli dla porównania ze znalezioną"
