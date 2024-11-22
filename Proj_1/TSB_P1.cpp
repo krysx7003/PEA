@@ -243,6 +243,7 @@ int brute_force(){
     for(int i=0;i<gSize;i++){
         currPath.insert(currPath.end(),i);
     }
+    duration = chrono::duration<double,nano>::zero();
     heap_alg(gSize,currPath,0,startT);
     auto endT = chrono::high_resolution_clock::now();//Koniec pomiaru czasu
     duration = endT - startT;//Czas wykonania zapisany w ns
@@ -638,7 +639,10 @@ void testFunc(int count,string funcName,function<int()> func){
                 ofstream outputFile(fileNameOut,ios_base::app);
                 outputFile<<"Size: "<<gSize<<"\n";
                 outputFile.close();
+                long long tmp = maxtime;
+                maxtime = 600000000000; 
                 config["instance"]["optimalRes"]=brute_force();
+                maxtime = tmp;
                 for(int l=1;l<=iterations;l++){
                     clear_input();
                     printBar((double)l/iterations,"Iteracje \t\t");
@@ -662,7 +666,7 @@ void testProc(map<string,function<int()>> funcMap){
     for(const auto& [funcName, func] : funcMap){
         if(funcName == config["algorithms"]["random"]){
             double times[] = {0.01,0.1,1,10,100};
-            for(int i=0;i<5;i++){
+            for(int i=0;i<4;i++){
                 maxtime = times[i]*1000000000;
                 testFunc(count,funcName, func);
             }
@@ -699,6 +703,7 @@ int main(){
         {config["algorithms"]["leastCost"],leastCost},
         {config["algorithms"]["random"],randomAlg}
     };
+    
     //W mapie znajduej odpowiednią funkcje i ją uruchamiam
     if(test){
         testProc(funcMap);
