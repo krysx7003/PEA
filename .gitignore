@@ -1,1 +1,6 @@
-/TSB_P1/TSB_P1.exe
+.cmake/
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+compile_commands.json
+Makefile

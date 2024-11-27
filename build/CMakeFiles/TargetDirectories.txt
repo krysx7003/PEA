@@ -1,3 +1,0 @@
-D:/Studia/PEA/PEA/build/CMakeFiles/Proj_1.dir
-D:/Studia/PEA/PEA/build/CMakeFiles/edit_cache.dir
-D:/Studia/PEA/PEA/build/CMakeFiles/rebuild_cache.dir
