@@ -1,0 +1,174 @@
+\documentclass{article}
+\usepackage[polish]{babel}
+\usepackage{lmodern}  
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{datetime}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{placeins}
+\usepackage{minted}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\geometry{
+ a4paper,
+ left=25mm,
+ top=25mm,
+ }
+\newdateformat{daymonthyear}{\THEDAY .\THEMONTH .\THEYEAR}
+\title{
+  \center\includegraphics[width=\textwidth]{src/images/logo_PWr_kolor_poziom.png}\\
+  \fontsize{28pt}{30pt}\selectfont Sprawozdanie 4\\
+  \fontsize{14pt}{30pt}\selectfont }
+\author{Krzysztof Zalewa}
+\date{\daymonthyear\today}
+\renewcommand*\contentsname{Spis treści}
+\renewcommand{\tablename}{Tabela}
+
+
+\begin{document}
+  \maketitle
+  \pagebreak
+  \tableofcontents
+  \section{Problem komiwojażera}
+  \section{Specyfikacja sprzętu}
+  \section{Procedura badawcza}
+  \section{Badania}
+  \subsection{Algorytm losowy (ang. Random)}
+  Lorem
+  \subsubsection{Opis algorytmu}
+  \subsubsection{Lista kroków}
+  \subsubsection{Założenia badawcze}
+
+  \subsubsection{Wyniki}
+  \subsubsection{Wnioski}
+  \subsection{Algorytm najbliższego sąsiada (ang. Nearest neighbour)}
+  Lorem
+  \subsubsection{Opis algorytmu}
+  \subsubsection{Lista kroków}
+  \subsubsection{Założenia badawcze}
+  \subsubsection{Wyniki}
+  \input{src/tables/nearest-neighbourresoult.tex}
+  \FloatBarrier
+
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{src/plots/asymnearest-neighbourresoult.png}
+    \caption{Wyniki dla macierzy symetrycznych o różnych gęstościach}
+    \label{fig:asm_nn}
+  \end{figure}
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{src/plots/symnearest-neighbourresoult.png}
+    \caption{Wyniki dla macierzy symetrycznych o różnych gęstościach}
+    \label{fig:sm_nn}
+  \end{figure}
+  \FloatBarrier
+  \subsubsection{Wnioski}
+
+  \subsection{Algorytm siłowy (ang. Brute-force)}
+  Lorem
+  \subsubsection{Opis algorytmu}
+  \subsubsection{Lista kroków}
+  \subsubsection{Założenia badawcze}
+  \subsubsection{Wyniki}
+  \input{src/tables/brute-forceresoult.tex}
+  \FloatBarrier
+
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{src/plots/asymbrute-forceresoult.png}
+    \caption{Wyniki dla macierzy asymetrycznych o różnych gęstościach}
+    \label{fig:asm_bf}
+  \end{figure}
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{src/plots/symbrute-forceresoult.png}
+    \caption{Wyniki dla macierzy symetrycznych o różnych gęstościach}
+    \label{fig:sm_bf}
+  \end{figure}
+  \FloatBarrier
+  \subsubsection{Wnioski}
+
+  \subsection{Metoda podziału i ograniczeń (ang. Branch and bound)}
+
+  \subsection{Przeszukiwanie w szerz (ang. Breadth first search)}
+  Lorem
+  \subsubsection{Opis algorytmu}
+  \subsubsection{Lista kroków}
+  \subsubsection{Założenia badawcze}
+  \subsubsection{Wyniki}
+  \input{src/tables/bfsresoult.tex}
+  \FloatBarrier
+
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{src/plots/asymbfsresoult.png}
+    \caption{Wyniki dla macierzy asymetrycznych o różnych gęstościach}
+    \label{fig:asm_bfs}
+  \end{figure}    
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{src/plots/symbfsresoult.png}
+    \caption{Wyniki dla macierzy symetrycznych o różnych gęstościach}
+    \label{fig:sm_bfs}
+  \end{figure}
+  \FloatBarrier
+  \subsubsection{Wnioski}
+
+  \subsection{Przeszukiwanie w głąb (ang. Depth first search)}
+  Lorem
+  \subsubsection{Opis algorytmu}
+  \subsubsection{Lista kroków}
+  \subsubsection{Założenia badawcze}
+  \subsubsection{Wyniki}
+  \input{src/tables/dfsresoult.tex}
+  \FloatBarrier
+
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{src/plots/asymdfsresoult.png}
+    \caption{Wyniki dla macierzy asymetrycznych o różnych gęstościach}
+    \label{fig:asm_df}
+  \end{figure}
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{src/plots/symdfsresoult.png}
+    \caption{Wyniki dla macierzy symetrycznych o różnych gęstościach}
+    \label{fig:sm_df}
+  \end{figure}
+  \FloatBarrier
+  \subsubsection{Wnioski}
+
+  \subsection{Przeszukiwanie przy minimum kosztów (ang. Least cost)}
+  Lorem
+  \subsubsection{Opis algorytmu}
+  \subsubsection{Lista kroków}
+  \subsubsection{Założenia badawcze}
+  \subsubsection{Wyniki}
+  \input{src/tables/leastCostresoult.tex}
+  \FloatBarrier
+  
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{src/plots/asymleastCostresoult.png}
+    \caption{Wyniki dla macierzy symetrycznych o różnych gęstościach}
+    \label{fig:asm_lc}
+  \end{figure}
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{src/plots/symleastCostresoult.png}
+    \caption{Wyniki dla macierzy symetrycznych o różnych gęstościach}
+    \label{fig:sm_lc}
+  \end{figure}
+  \FloatBarrier
+  \subsubsection{Wnioski}
+  
+  \section{Źródła}
+  Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing  
+  elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et 
+  neque pharetra sollicitudin.  Praesent imperdietmi nec ante. 
+  Donec ullamcorper, felis non sodales...
+\end{document}

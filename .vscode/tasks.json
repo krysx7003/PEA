@@ -36,7 +36,7 @@
             "args": [
                 "/c",
                 "start",
-                "Proj_1.exe"
+                "${fileBasenameNoExtension}.exe"
             ],
             "dependsOn": [
                 "CMake Configure","CMake Build"
@@ -47,7 +47,7 @@
             },
             "problemMatcher": [],
             "options": {
-                "cwd": "${workspaceFolder}/build/Proj_1"
+                "cwd": "${workspaceFolder}/build/${fileBasenameNoExtension}"
             }
         },
         {
@@ -56,7 +56,9 @@
             "command": "cmake",
             "args": [
                 "--build",
-                "build"
+                "build",
+                "--config",
+                "Debug"
             ],
             "dependsOn": [
                 "CMake Configure",

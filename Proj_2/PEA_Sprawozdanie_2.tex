@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{datetime}
+\usepackage{geometry}
+\usepackage{booktabs}
+
+\geometry{
+ a4paper,
+ left=25mm,
+ top=25mm,
+ }
+\newdateformat{daymonthyear}{\THEDAY .\THEMONTH .\THEYEAR}
+\title{
+  \centering
+  \includegraphics[width=\textwidth]{src/images/logo_PWr_kolor_poziom.png}\\
+  \fontsize{28pt}{30pt}\selectfont Sprawozdanie 4\\
+  \fontsize{14pt}{30pt}\selectfont }
+\author{Krzysztof Zalewa}
+\date{\daymonthyear\today}
+\renewcommand*\contentsname{Spis treści}
+\renewcommand{\tablename}{Tabela} % Change "Table" to "Tabela"
+\begin{document}
+  \maketitle
+  \pagebreak
+  \tableofcontents
+  
+  \section{Wstęp teoretyczny}
+  \input{src/tables/MeanTime.tex}
+  Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing  
+  elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et 
+  neque pharetra sollicitudin.  Praesent imperdietmi nec ante. 
+  Donec ullamcorper, felis non sodales...
+  \subsection{Temat1}
+  \subsubsection{Temat1.1}
+
+  \section{Zadanie laboratoryjne}
+  Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing  
+  elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et 
+  neque pharetra sollicitudin.  Praesent imperdietmi nec ante. 
+  Donec ullamcorper, felis non sodales...
+
+  \section{Wnioski}
+  Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing  
+  elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et 
+  neque pharetra sollicitudin.  Praesent imperdietmi nec ante. 
+  Donec ullamcorper, felis non sodales...
+  
+  \section{Źródła}
+  Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing  
+  elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et 
+  neque pharetra sollicitudin.  Praesent imperdietmi nec ante. 
+  Donec ullamcorper, felis non sodales...
+\end{document}
