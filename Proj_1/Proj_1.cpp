@@ -42,6 +42,19 @@ void clear_input(){
     }
     cout<<"\r";
 }
+int pathValue(vector<int> path,Graph *graph){
+    int value = 0;
+    for(int i = 0;i<path.size();i++){
+        int currentVert = path.at(i);
+        int nextVert = path.at((i+1)%path.size());
+        int cost = graph->getMatrixItem(currentVert,nextVert);
+        if(cost<0){
+            return -1;
+        }  
+        value += cost;       
+    }
+    return value;
+}
 json config;
 vector<int> resPath;
 vector<string> searchMethods;
@@ -57,7 +70,6 @@ int randomAlg(){
     vector<int>  currPath;
     width = config["settings"]["barWidth"];
     long long fraction=maxtime/(width*10);
-    bool pathExist = true;
     if(showProgress){
         printBar(0,"\nMetoda losowa\t\t");
     }
@@ -74,20 +86,8 @@ int randomAlg(){
         if(showProgress){
             printBar((double)duration.count()/maxtime,"Metoda losowa\t\t");
         }
-        int currRes=0;
-        for(int j = 0;j<gSize-1;j++){
-            pathExist = graph->pathExist(currPath[j],currPath[j+1]);
-            currRes += graph->getMatrixItem(currPath[j],currPath[j+1]);
-            if(!pathExist){
-                break;
-            }   
-        }
-        if(!pathExist){
-            continue;
-        }
-        pathExist = graph->pathExist(currPath[gSize-1],currPath[0]);
-        currRes += graph->getMatrixItem(currPath[gSize-1],currPath[0]);
-        if(!pathExist){
+        int currRes = pathValue(currPath,graph);
+        if(currRes<0){
             continue;
         }
         if(currRes<res){
@@ -113,7 +113,6 @@ int nearest_neighbour(){
     graph->readFromFile(config["instance"]["inputFile"]);
     vector<int>  currPath;
     int res=INT_MAX,currRes;
-    bool pathExist = true;
     if(showProgress){
         printBar(0,"\nMetoda nearest neighbour");
     }
@@ -129,8 +128,7 @@ int nearest_neighbour(){
             for(int j=0;j<gSize;j++){
                 if(count(currPath.begin(), currPath.end(), j)==0){
                     int val = graph->getMatrixItem(currPath[i],j);
-                    pathExist = graph->pathExist(currPath[i],j);
-                    if(!pathExist){
+                    if(val<0){
                         continue;
                     }
                     if(val<currVal){
@@ -142,13 +140,12 @@ int nearest_neighbour(){
             currRes +=currVal;
             currPath.insert(currPath.end(),currVert);
         }
-        currRes += graph->getMatrixItem(currPath[gSize-1],currPath[0]);
-        pathExist = graph->pathExist(currPath[gSize-1],currPath[0]);
-        if(!pathExist){
+        int val = graph->getMatrixItem(currPath[gSize-1],currPath[0]);
+        if(val<0){
             continue;
         }
+        currRes += val;
         if(currRes<res){
-            currPath.insert(currPath.end(),startVert);
             resPath.clear();
             res=currRes;
             resPath.insert(resPath.end(),currPath.begin(),currPath.end());
@@ -172,7 +169,6 @@ bool bfShowProgress;
 long long factorial,fraction,iterNum = 0;
 void heap_alg(int n,vector<int>& currPath, int partialCost,auto startT){
     auto endT = chrono::high_resolution_clock::now();//Koniec pomiaru czasu
-    bool pathExist = true; 
     duration = endT - startT;
     if(duration.count()<=maxtime){
        if(n!=1){
@@ -186,20 +182,8 @@ void heap_alg(int n,vector<int>& currPath, int partialCost,auto startT){
                 heap_alg(n - 1, currPath,partialCost,startT);
             }
         }else{
-            int currRes=0;
-            for(int j=0;j<gSize-1;j++){
-                pathExist = bfGraph->pathExist(currPath[j],currPath[j+1]);
-                currRes += bfGraph->getMatrixItem(currPath[j],currPath[j+1]);
-                if(!pathExist){
-                    break;
-                }
-            }
-            if(!pathExist){
-                return;
-            }
-            pathExist = bfGraph->pathExist(currPath[gSize-1],currPath[0]);
-            currRes += bfGraph->getMatrixItem(currPath[gSize-1],currPath[0]);
-            if(!pathExist){
+            int currRes = pathValue(currPath,bfGraph);
+            if(currRes<0){
                 return;
             }
             if(currRes<=bfRes){
@@ -256,7 +240,6 @@ int dfs(){
         printBar(0,"\nMetoda BNB-bfs\t\t");
     }
     Graph* graph = new Graph(gSize);
-    bool pathExist = true; 
     resPath.clear();
     graph->readFromFile(config["instance"]["inputFile"]);
     vector<int> currPath;
@@ -274,28 +257,25 @@ int dfs(){
             continue;
         }
         if(currNode.path.size()==gSize){
-            int currRes = currNode.cost + graph->getMatrixItem(currNode.path.back(), currNode.path.front());
-            pathExist = graph->pathExist(currNode.path.back(), currNode.path.front());
-            if(!pathExist){
+            int val = graph->getMatrixItem(currNode.path.back(), currNode.path.front());
+            if(val<0){
                 continue;
             }
+            int currRes = currNode.cost + val;
             if (currRes < res) {
                 res = currRes;
                 resPath = currNode.path;
                 resPath.insert(resPath.end(),currNode.path.at(0));
-                if(res==optimalRes){
-                    break;
-                }
             }
             continue;
         }
         for(int i=0;i<gSize;i++){
             if(find(currNode.path.begin(),currNode.path.end(),i)==currNode.path.end()){
-                int newCost = currNode.cost + graph->getMatrixItem(currNode.path.back(), i);
-                pathExist = graph->pathExist(currNode.path.back(), i);
-                if(!pathExist){
+                int val = graph->getMatrixItem(currNode.path.back(), i);
+                if(val<0){
                     continue;
                 }
+                int newCost = currNode.cost + val;
                 vector<int> newPath = currNode.path;
                 newPath.push_back(i);
                 Node child = {newPath, newCost};
@@ -328,7 +308,6 @@ int bfs(){
         printBar(0,"\nMetoda BNB-bfs\t\t");
     }
     Graph* graph = new Graph(gSize);
-    bool pathExist = true; 
     resPath.clear();
     graph->readFromFile(config["instance"]["inputFile"]);
     vector<int> currPath;
@@ -346,28 +325,25 @@ int bfs(){
             continue;
         }
         if(currNode.path.size()==gSize){
-            int currRes = currNode.cost + graph->getMatrixItem(currNode.path.back(), currNode.path.front());
-            pathExist = graph->pathExist(currNode.path.back(), currNode.path.front());
-            if(!pathExist){
+            int val = graph->getMatrixItem(currNode.path.back(), currNode.path.front());
+            if(val<0){
                 continue;
             }
+            int currRes = currNode.cost + val;
             if (currRes <=res) {
                 res = currRes;
                 resPath = currNode.path;
                 resPath.insert(resPath.end(),currNode.path.at(0));
-                if(res==optimalRes){
-                    break;
-                }
             }
             continue;
         }
         for(int i=0;i<gSize;i++){
             if(find(currNode.path.begin(),currNode.path.end(),i)==currNode.path.end()){
-                int newCost = currNode.cost + graph->getMatrixItem(currNode.path.back(), i);
-                pathExist = graph->pathExist(currNode.path.back(), i);
-                if(!pathExist){
+                int val = graph->getMatrixItem(currNode.path.back(), i);
+                if(val<0){
                     continue;
                 }
+                int newCost = currNode.cost + val;
                 vector<int> newPath = currNode.path;
                 newPath.push_back(i);
                 Node child = {newPath, newCost};
@@ -401,7 +377,6 @@ int leastCost(){
     }
     int res = INT_MAX,count = 0;
     Graph* graph = new Graph(gSize);
-    bool pathExist = true; 
     resPath.clear();
     graph->readFromFile(config["instance"]["inputFile"]);
     vector<int> currPath;
@@ -417,28 +392,25 @@ int leastCost(){
             continue;
         }
         if (currNode.path.size() == gSize) {
-            int currRes = currNode.cost + graph->getMatrixItem(currNode.path.back(), 0);
-            pathExist = graph->pathExist(currNode.path.back(), 0);
-            if(!pathExist){
+            int val = graph->getMatrixItem(currNode.path.back(), currNode.path.front());
+            if(val<0){
                 continue;
             }
+            int currRes = currNode.cost + val;
             if(currRes<res){
                 res=currRes;
                 resPath = currNode.path;
                 resPath.insert(resPath.end(),currNode.path.at(0));
-                if(res==optimalRes){
-                    break;
-                }
             }
             continue;
         }
         for (int i = 0; i < gSize; i++) {
             if (find(currNode.path.begin(), currNode.path.end(), i) == currNode.path.end()) {
-                int newCost = currNode.cost + graph->getMatrixItem(currNode.path.back(), i);
-                pathExist = graph->pathExist(currNode.path.back(), i);
-                if(!pathExist){
+                int val = graph->getMatrixItem(currNode.path.back(), i);
+                if(val<0){
                     continue;
                 }
+                int newCost = currNode.cost + val;
                 vector<int> newPath = currNode.path;
                 newPath.push_back(i);
                 Node child = {newPath, newCost};
@@ -474,7 +446,6 @@ void print(int res){
     int maxDisplaySize = config["settings"]["maxDisplaySize"];
     cout<<"========================================================\n";
     string fileName = config["instance"]["inputFile"];
-    
     cout<<"Plik wejsciowy: "<<fileName<<"\n";
     string funcName = config["instance"]["algorithName"];
     cout<<"Uzyty algorytm: "<<funcName<<"\n";

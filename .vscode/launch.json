@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Proj_1",
+            "name": "Debug Proj_2",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/Proj_1/Proj_1.exe", 

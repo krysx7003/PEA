@@ -4,52 +4,57 @@
 \usepackage{titlesec}
 \usepackage{datetime}
 \usepackage{geometry}
-\usepackage{booktabs}
-
+\usepackage{placeins}
+\usepackage{minted}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage[document]{ragged2e}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
 \geometry{
  a4paper,
  left=25mm,
  top=25mm,
  }
+\captionsetup{hypcap=false} 
 \newdateformat{daymonthyear}{\THEDAY .\THEMONTH .\THEYEAR}
 \title{
   \centering
   \includegraphics[width=\textwidth]{src/images/logo_PWr_kolor_poziom.png}\\
-  \fontsize{28pt}{30pt}\selectfont Sprawozdanie 4\\
-  \fontsize{14pt}{30pt}\selectfont }
+  \fontsize{28pt}{30pt}\selectfont Programowanie efektywnych algorytmów\\
+  \fontsize{14pt}{30pt}\selectfont Problem komiwojażera (TSP)}
 \author{Krzysztof Zalewa}
 \date{\daymonthyear\today}
 \renewcommand*\contentsname{Spis treści}
-\renewcommand{\tablename}{Tabela} % Change "Table" to "Tabela"
+\renewcommand{\figurename}{Rysunek}
+\renewcommand{\listingscaption}{Fragment kodu}
 \begin{document}
-  \maketitle
-  \pagebreak
-  \tableofcontents
-  
-  \section{Wstęp teoretyczny}
-  \input{src/tables/MeanTime.tex}
-  Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing  
-  elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et 
-  neque pharetra sollicitudin.  Praesent imperdietmi nec ante. 
-  Donec ullamcorper, felis non sodales...
-  \subsection{Temat1}
-  \subsubsection{Temat1.1}
+    \maketitle
+    \pagebreak
+    \tableofcontents
+    \FloatBarrier
+    \section{Wstęp teoretyczny}
+      \begin{figure}[ht]
+        \centering
+        \includegraphics[width=\textwidth]{src/images/logo_PWr_kolor_poziom.png}
+        \caption{}
+        \label{fig:tex2}
+      \end{figure}
+      \FloatBarrier
+    \subsection{Temat1}
+    \subsubsection{Temat1.1}
 
-  \section{Zadanie laboratoryjne}
-  Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing  
-  elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et 
-  neque pharetra sollicitudin.  Praesent imperdietmi nec ante. 
-  Donec ullamcorper, felis non sodales...
+    \section{Zadanie laboratoryjne}
 
-  \section{Wnioski}
-  Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing  
-  elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et 
-  neque pharetra sollicitudin.  Praesent imperdietmi nec ante. 
-  Donec ullamcorper, felis non sodales...
-  
-  \section{Źródła}
-  Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing  
-  elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et 
-  neque pharetra sollicitudin.  Praesent imperdietmi nec ante. 
-  Donec ullamcorper, felis non sodales...
+
+    \section{Wnioski}
+
+
+    \section{Źródła}
+      \begin{enumerate}[label=\arabic*.]
+        \item \url{https://www.javatpoint.com/what-is-a-tabu-search}
+        \item \url{https://www.geeksforgeeks.org/what-is-tabu-search/}
+        \item \url{https://www.baeldung.com/cs/tabu-search}
+      \end{enumerate}
 \end{document}

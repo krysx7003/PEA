@@ -13,10 +13,10 @@
     "csvTitleString": "Optymalny wynik,Optymalna scieżka,Otrzymany wynik,Otrzymana scieżka,Czas wykonania,Blad bezwzgledny,Blad wzgledny (liczbowo),Blad wzgledny (procentowo)",
     "instance": {
         "algorithName": "brute-force",          "_comment1":"Nazwa wybranego algorytmu.Musi odpowiadać jednej z nazw w sekcji algorithms",
-        "inputFile": "\\Dane\\Adam11.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
+        "inputFile": "\\Dane\\Tsp48.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
         "outputFile": "\\Wyniki\\finalresoult.csv", "_comment3":"Nazwa pliku wyjściowego",
-        "size": 11,                             "_comment4":"Rozmiar macierzy",
-        "optimalRes": 149,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
+        "size": 48,                             "_comment4":"Rozmiar macierzy",
+        "optimalRes": 1,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
         "optimalPath": "" ,                     "_comment6":"Optymalna scieżka. Wyświetlana w konsoli dla porównania ze znalezioną"
 
     },

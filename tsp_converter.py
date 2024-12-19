@@ -5,7 +5,7 @@ vertlist = []
 matrix = []
 
 def read_from_file():
-    with open("D:/Studia/PEA/Problem_1/att48.txt", "r") as f:
+    with open("D:/Studia/PEA/PEA/att48.tsp", "r") as f:
         for line_number, line in enumerate(f):
             linelist.append((line_number, line.strip()))
 
