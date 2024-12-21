@@ -13,8 +13,8 @@
     "csvTitleString": "Optymalny wynik,Optymalna scieżka,Otrzymany wynik,Otrzymana scieżka,Czas wykonania,Blad bezwzgledny,Blad wzgledny (liczbowo),Blad wzgledny (procentowo)",
     "instance": {
         "algorithName": "tabuSearch",          "_comment1":"Nazwa wybranego algorytmu.Musi odpowiadać jednej z nazw w sekcji algorithms",
-        "inputFile": "\\Dane\\Adam11.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
-        "outputFile": "\\Wyniki\\finalresoult.csv", "_comment3":"Nazwa pliku wyjściowego",
+        "inputFile": "/Dane/Adam11.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
+        "outputFile": "/Wyniki/finalresoult.csv", "_comment3":"Nazwa pliku wyjściowego",
         "size": 11,                             "_comment4":"Rozmiar macierzy",
         "optimalRes": 149,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
         "optimalPath": "" ,                     "_comment6":"Optymalna scieżka. Wyświetlana w konsoli dla porównania ze znalezioną"

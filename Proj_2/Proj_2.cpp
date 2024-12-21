@@ -339,7 +339,7 @@ void write_header(string funcName){
     outputFile.close();
 }
 int main(){
-    ifstream file("config.json");
+    ifstream file("configP2.json");
     if(file.is_open()){
         file>>config;
     }else{
@@ -387,6 +387,8 @@ int main(){
         cout<<"Nie znaleziono funkcji\n";
     }
     cout<<"Program zakonczony\n";
-    system("pause");
+    cout<<"Press ENTER to continue...\n";
+    cin.get();
+
     return 0;
 }

@@ -604,7 +604,7 @@ void testProc(map<string,function<int()>> funcMap){
     }    
 }
 int main(){
-    ifstream file("config.json");
+    ifstream file("configP1.json");
     if(file.is_open()){
         file>>config;
     }else{

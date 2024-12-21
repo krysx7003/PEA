@@ -1,8 +1,0 @@
-Optymalny wynik,Optymalna scieżka,Otrzymany wynik,Otrzymana scieżka,Czas wykonania,Blad bezwzgledny,Blad wzgledny (liczbowo),Blad wzgledny (procentowo)
-\Dane\Adam11.txt, brute-force,10min,false
-149,,149,5-4-10-9-11-2-3-8-6-7-1-5,8304900700.000000,0.000000,0.000000,0.000000%
-\Dane\Tsp48.txt, brute-force,10min,false
-\Dane\Tsp48.txt, brute-force,10min,false
-\Dane\Tsp48.txt, brute-force,10min,false
-\Dane\Tsp48.txt, brute-force,10min,false
-\Dane\Tsp48.txt, brute-force,10min,false

@@ -15,9 +15,6 @@ add_executable(Proj_2
 target_include_directories(Proj_1 PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_include_directories(Proj_2 PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
-set_target_properties(Proj_1 PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Proj_1")
-set_target_properties(Proj_2 PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Proj_2")
-
 target_compile_options(Proj_1 PRIVATE
         -O0
         -march=x86-64

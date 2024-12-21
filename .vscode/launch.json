@@ -5,10 +5,10 @@
             "name": "Debug Proj_2",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/Proj_1/Proj_1.exe", 
+            "program": "${workspaceFolder}/build/${fileBasenameNoExtension}", 
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build/Proj_1",  
+            "cwd": "${workspaceFolder}/build/",  
             "environment": [],
             "externalConsole": true,  
             "MIMode": "gdb",  
@@ -20,7 +20,7 @@
                 }
             ],
             "preLaunchTask": "Build and Debug",  
-            "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe" 
+            "miDebuggerPath": "/usr/bin/gdb" 
         }
     ]
 }
