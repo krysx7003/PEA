@@ -205,14 +205,14 @@ int simulatedAnealing(){
     int res = INT_MAX,count = 0;
     vector<int> currPath;int currVal;
     float currTemp,minTemp = 0.0001;
-    float alpha = 0.9;
+    float alpha = 0.99;
     Graph* graph = new Graph(gSize);
     resPath.clear();
     graph->readFromFile(config["instance"]["inputFile"]);
     auto startT = chrono::high_resolution_clock::now();
     currVal = nearest_neighbour();
     currPath = resPath;
-    currTemp = 1;
+    currTemp = 40;
     while(currTemp>minTemp && currVal >optimalRes){
         vector<int> newPath = currPath;
         swap(newPath[rand()%gSize],newPath[rand()%gSize]);
