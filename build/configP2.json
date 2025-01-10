@@ -6,28 +6,31 @@
       "maxDisplaySize": 16,   "_comment4": "Maksymalna szerokość ścieżki do wyświetlenia",
       "time": 10,             "_comment5": "Ograniczenie czasowe algorytmu (Podane w minutach)",
       "barWidth": 20,         "_comment6": "Szerokość paska postępu",
-      "test": false,           "_comment7": "Jeżeli false włączona zostaje procedura badawcza",
+      "test": false,           "_comment7": "Jeżeli true włączona zostaje procedura badawcza",
       "bigGraph": 13,         "_comment8": "Rozmiar największego grafu w procedurze badawczej",
       "smallGraph": 8,        "_comment9": "Rozmiar najmniejszego grafu w procedurze badawczej"
     },
     "csvTitleString": "Optymalny wynik,Optymalna scieżka,Otrzymany wynik,Otrzymana scieżka,Czas wykonania,Blad bezwzgledny,Blad wzgledny (liczbowo),Blad wzgledny (procentowo)",
     "instance": {
-        "algorithName": "brute-force",          "_comment1":"Nazwa wybranego algorytmu.Musi odpowiadać jednej z nazw w sekcji algorithms",
-        "inputFile": "\\Dane\\Tsp48.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
-        "outputFile": "\\Wyniki\\finalresoult.csv", "_comment3":"Nazwa pliku wyjściowego",
-        "size": 48,                             "_comment4":"Rozmiar macierzy",
-        "optimalRes": 1,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
+        "algorithName": "tabuSearch",          "_comment1":"Nazwa wybranego algorytmu.Musi odpowiadać jednej z nazw w sekcji algorithms",
+        "inputFile": "/Dane/Adam11.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
+        "outputFile": "/Wyniki/finalresoult.csv", "_comment3":"Nazwa pliku wyjściowego",
+        "size": 11,                             "_comment4":"Rozmiar macierzy",
+        "optimalRes": 149,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
         "optimalPath": "" ,                     "_comment6":"Optymalna scieżka. Wyświetlana w konsoli dla porównania ze znalezioną"
-
     },
     "algorithms": {
-        "random": "random",
-        "nearest-neighbour": "nearest-neighbour", 
-        "brute-force": "brute-force",             
-        "bfs": "bfs",                             
-        "dfs": "dfs",                             
-        "leastCost": "leastCost",
-        "_comment1": "Nazwy zaimplementowanych algorytmów",
+        "tabuSearch": "tabuSearch",
+        "simulatedAnealing": "simulatedAnealing",
+        "maxMultiplier" : 11, 
+        "lenMultiplier" : 0.3,
+        "improvementCount" : 20,
+        "startPath" : "subsequent",
+        "newPathMethod": "swap",
+        "minTemp": 0.0001,
+        "alpha": 0.99,
+        "currTemp": 40,
+        "epochLen": 20,
         "showProgress": false,                     "_comment2":"Pokazuje jaki procent danej metody wykonano. Będzie wpływać na czas wykonania"
     }
   }

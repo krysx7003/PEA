@@ -10,7 +10,7 @@
                 "-B",
                 "build",
                 "-G",
-                "MinGW Makefiles"
+                "Unix Makefiles"
             ],
             "group": "build",
             "problemMatcher": []
@@ -32,11 +32,12 @@
         {
             "label": "Build and Run",
             "type": "shell",
-            "command": "cmd.exe",
+            "command": "gnome-terminal",
             "args": [
-                "/c",
-                "start",
-                "${fileBasenameNoExtension}.exe"
+                "--",
+                "bash",  
+                "-c",
+                "./${fileBasenameNoExtension}"
             ],
             "dependsOn": [
                 "CMake Configure","CMake Build"
@@ -47,7 +48,7 @@
             },
             "problemMatcher": [],
             "options": {
-                "cwd": "${workspaceFolder}/build/${fileBasenameNoExtension}"
+                "cwd": "${workspaceFolder}/build"
             }
         },
         {
