@@ -123,14 +123,18 @@ int nearest_neighbour(){
 int tabuSearch(){
     int optimalRes = config["instance"]["optimalRes"];
     bool showProgress = config["algorithms"]["showProgress"];
-    int maxIterations = gSize*gSize;
-    int tabuLength = gSize/3;
+    int maxIterations = gSize * (int)config["algorithms"]["maxMultiplier"];
+    int tabuLength = gSize * (int)config["algorithms"]["lenMultiplier"];
+    int improvementCount = config["algorithms"]["improvementCount"];
+    string startPath = config["algorithms"]["startPath"];
     int estimatedCount = maxIterations,fraction = 0;
+    auto rng = default_random_engine {};
     if(showProgress){
         fraction = estimatedCount/(width*20);
         printBar(0,"\nMetoda Tabu Search\t\t");
     }
     int res = INT_MAX;
+    int noImprovement = 0;
     Graph* graph = new Graph(gSize);
     resPath.clear();
     vector<int> currPath;int currVal = INT_MAX;
@@ -140,6 +144,9 @@ int tabuSearch(){
     auto startT = chrono::high_resolution_clock::now();
     for(int i = 0;i<gSize;i++){
         currPath.push_back(i);
+    }
+    if (startPath == "random"){
+        shuffle(begin(currPath), end(currPath), rng);
     }
     currVal = pathValue(currPath,graph);
     for(int count = 0;count < maxIterations;count++){
@@ -156,9 +163,14 @@ int tabuSearch(){
             if(val<0){
                 continue;
             }
-            if(find(tabuList.begin(), tabuList.end(), neighbor) == tabuList.end() && val<bestVal){
-                bestPath = neighbor;bestVal = val;
-            }
+            if(find(tabuList.begin(), tabuList.end(), neighbor) == tabuList.end() || noImprovement>improvementCount){
+                if(val<bestVal){
+                    bestPath = neighbor;bestVal = val;
+                }
+                noImprovement = 0;
+            }else{
+                noImprovement++;
+            }   
         }
         currPath = bestPath;currVal = bestVal;
         if(bestVal<res){
@@ -197,36 +209,59 @@ bool accept(int dVal,float currTemp){
 int simulatedAnealing(){
     int optimalRes = config["instance"]["optimalRes"];
     bool showProgress = config["algorithms"]["showProgress"];
+    float minTemp = config["algorithms"]["minTemp"];
+    float alpha = config["algorithms"]["alpha"];
+    float currTemp = config["algorithms"]["currTemp"];
+    int improvementCount = config["algorithms"]["improvementCount"];
+    string startPath = config["algorithms"]["startPath"];
+    string newPathMethod = config["algorithms"]["newPathMethod"];
+    int epochLen = config["algorithms"]["epochLen"];
     int estimatedCount = 0,fraction = 0;
+    auto rng = default_random_engine {};
     if(showProgress){
+        estimatedCount = log(minTemp / currTemp) / log(alpha);
         fraction = estimatedCount/(width*20);
         printBar(0,"\nMetoda Wyzarzania\t\t");
     }
     int res = INT_MAX,count = 0;
+    int noImprovement = 0;
     vector<int> currPath;int currVal;
-    float currTemp,minTemp = 0.0001;
-    float alpha = 0.99;
     Graph* graph = new Graph(gSize);
     resPath.clear();
     graph->readFromFile(config["instance"]["inputFile"]);
     auto startT = chrono::high_resolution_clock::now();
     currVal = nearest_neighbour();
-    currPath = resPath;
-    currTemp = 40;
-    while(currTemp>minTemp && currVal >optimalRes){
-        vector<int> newPath = currPath;
-        swap(newPath[rand()%gSize],newPath[rand()%gSize]);
-        int val = pathValue(newPath,graph);
-        if(val<0){
-            continue;
+    for(int i = 0;i<gSize;i++){
+        currPath.push_back(i);
+    }
+    if (startPath == "random"){
+        shuffle(begin(currPath), end(currPath), rng);
+    }
+    while(currTemp>minTemp && noImprovement > improvementCount){
+        for(int i = 0;i<epochLen;i++){
+            vector<int> newPath = currPath;
+            int firstItem = rand()%gSize;
+            int secondItem = rand()%gSize;
+            if(newPathMethod == "swap"){
+                swap(newPath[firstItem],newPath[secondItem]);
+            }else if(newPathMethod == "insert"){
+                int vert = newPath[firstItem];
+                newPath.erase(newPath.begin()+firstItem);
+                newPath.insert(newPath.begin()+secondItem,vert);
+            }
+            int val = pathValue(newPath,graph);
+            if(val<0){
+                continue;
+            }
+            int dVal = val - currVal;
+            if(accept(dVal,currTemp)){
+                currVal = val;
+                currPath = newPath;
+                noImprovement = 0;
+            }
         }
-        int dVal = val - currVal;
-        if(accept(dVal,currTemp)){
-            currVal = val;
-            currPath = newPath;
-        }
+        noImprovement++;
         currTemp *= alpha;
-        //TODO - pasek progresu 
         if(showProgress){
             count++;
             if(count%fraction==0){

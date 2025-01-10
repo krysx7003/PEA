@@ -21,7 +21,16 @@
     },
     "algorithms": {
         "tabuSearch": "tabuSearch",
-        "simulatedAnealing": "simulatedAnealing", 
+        "simulatedAnealing": "simulatedAnealing",
+        "maxMultiplier" : 11, 
+        "lenMultiplier" : 0.3,
+        "improvementCount" : 20,
+        "startPath" : "subsequent",
+        "newPathMethod": "swap",
+        "minTemp": 0.0001,
+        "alpha": 0.99,
+        "currTemp": 40,
+        "epochLen": 20,
         "showProgress": false,                     "_comment2":"Pokazuje jaki procent danej metody wykonano. Będzie wpływać na czas wykonania"
     }
   }
