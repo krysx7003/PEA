@@ -150,12 +150,20 @@ int tabuSearch(){
     }
     currVal = pathValue(currPath,graph);
     for(int count = 0;count < maxIterations;count++){
-        for(int i = 0;i<gSize;i++){
-            for(int j = 0;j<gSize;j++){
-                vector<int> neighbor = currPath;
-                swap(neighbor[i],neighbor[j]);
-                neighbors.insert(neighbors.end(),neighbor);
-            }
+        // for(int i = 0;i<gSize;i++){
+        //     for(int j = 0;j<gSize;j++){
+        //         vector<int> neighbor = currPath;
+        //         swap(neighbor[i],neighbor[j]);
+        //         neighbors.push_back(neighbor);
+        //     }
+        // }
+        for (int i = 0; i < gSize; i++) {
+            int x = rand() % gSize;
+            int y = rand() % gSize;
+            while (x == y) y = rand() % gSize;
+            vector<int> neighbor = currPath;
+            swap(neighbor[x], neighbor[y]);
+            neighbors.push_back(neighbor);
         }
         vector<int> bestPath;int bestVal = INT_MAX;
         for(vector<int>neighbor:neighbors){
@@ -223,7 +231,7 @@ int simulatedAnealing(){
         fraction = estimatedCount/(width*20);
         printBar(0,"\nMetoda Wyzarzania\t\t");
     }
-    int res = INT_MAX,count = 0;
+    int res,count = 0;
     int noImprovement = 0;
     vector<int> currPath;int currVal;
     Graph* graph = new Graph(gSize);
@@ -273,6 +281,115 @@ int simulatedAnealing(){
     duration = endT - startT;
     res = currVal;
     resPath = currPath;
+    if(showProgress){
+        clear_input();
+    }
+    delete graph;
+    return res;
+}
+vector<vector<float>> pheromoneLevels;
+int choseVert(int currentVert,vector<int> visited,Graph* graph){
+    vector<float> probs;
+    float sum = 0.0f;
+    for(int i = 0;i<gSize;i++){
+        if(find(visited.begin(), visited.end(), i) == visited.end()){
+            float heuristic = graph->getMatrixItem(currentVert, i);
+            float pheromone = pheromoneLevels[currentVert][i];
+            float prob = pheromone * heuristic;
+            probs.push_back(prob);
+            sum += prob;
+        }else {
+            probs.push_back(0.0f); 
+        }
+    }
+    if(sum == 0){
+        return -1;
+    }
+    for (int i = 0; i < probs.size(); i++) {
+        probs[i] /= sum;
+    }
+    float random = ((float)rand() / RAND_MAX);
+    float cumulative = 0.0f;
+    for (int i = 0; i < gSize; i++) {
+        if (find(visited.begin(), visited.end(), i) == visited.end()) {
+            cumulative += probs[i];
+            if (random < cumulative) {
+                return i;
+            }
+        }
+    }
+    return -1; 
+}
+int antColony(){
+    int optimalRes = config["instance"]["optimalRes"];
+    bool showProgress = config["algorithms"]["showProgress"];
+    int antsNumber = config["algorithms"]["antsNumber"];
+    int iterations = config["algorithms"]["iterations"];
+    float rho = config["algorithms"]["rho"];
+    int estimatedCount = 0,fraction = 0;
+    if(showProgress){
+        estimatedCount = iterations;
+        fraction = estimatedCount/(width*20);
+        printBar(0,"\nAlgorytm mrowkowy\t\t");
+    }
+    int res,count = 0;
+    vector<int> currPath;
+    vector<int> bestPath;int bestVal = INT_MAX;
+    vector<vector<int>> allPaths;
+    Graph* graph = new Graph(gSize);
+    resPath.clear();
+    graph->readFromFile(config["instance"]["inputFile"]);
+    auto startT = chrono::high_resolution_clock::now();
+    pheromoneLevels.resize(gSize, vector<float>(gSize, 1.0f));
+    for(int i = 0;i<iterations;i++){
+        for(int j = 0;j<antsNumber;j++){
+            currPath.clear();
+            int currVert = rand()%gSize;
+            vector<int> visited;
+            visited.push_back(currVert);
+            currPath.push_back(currVert);
+            while(visited.size()<gSize){
+                int nextVert = choseVert(currVert,visited,graph);
+                if(nextVert == -1){
+                    break;
+                }
+                visited.push_back(nextVert);
+                currPath.push_back(nextVert);
+                currVert = nextVert;
+            }
+            int val = pathValue(currPath,graph);
+            if(val<0){
+                continue;
+            }
+            if(val<bestVal){
+                bestVal = val;
+                bestPath = currPath;
+            }
+            allPaths.push_back(currPath);
+        }
+        for (int j = 0; j< gSize; j++) {
+            for (int k = 0; k < gSize; k++) {
+                pheromoneLevels[j][k] *= (1 - rho);
+            }
+        }
+        for(vector<int> path:allPaths){
+            int val = pathValue(path, graph);
+            float pheromone = 1.0f/val;
+            for(int j = 0;j<gSize-1;j++){
+                pheromoneLevels[path[j]][path[j+1]] += pheromone;
+            }
+        }
+        if(showProgress){
+            count++;
+            if(count%fraction==0){
+                printBar((double)count/estimatedCount ,"Algorytm mrowkowy\t\t");
+            }
+        }
+    }
+    auto endT = chrono::high_resolution_clock::now();//Koniec pomiaru czasu
+    duration = endT - startT;
+    res = bestVal;
+    resPath = bestPath;
     if(showProgress){
         clear_input();
     }
@@ -393,7 +510,8 @@ int main(){
     //Mapuje napis z configa do odpowiadającedj mu funkcji
     map<string,function<int()>> funcMap = {
         {config["algorithms"]["tabuSearch"],tabuSearch},
-        {config["algorithms"]["simulatedAnealing"],simulatedAnealing}
+        {config["algorithms"]["simulatedAnealing"],simulatedAnealing},
+        {config["algorithms"]["antColony"],antColony}
     };
      //W mapie znajduej odpowiednią funkcje i ją uruchamiam
     if(funcMap.find(funcName)!=funcMap.end()){

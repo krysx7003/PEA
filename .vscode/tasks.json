@@ -1,7 +1,7 @@
 {
     "tasks": [
         {
-            "label": "CMake Configure",
+            "label": "CMake Configure Debug",
             "type": "shell",
             "command": "cmake",
             "args": [
@@ -10,7 +10,22 @@
                 "-B",
                 "build",
                 "-G",
-                "Unix Makefiles"
+                "MinGW Makefiles"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake Configure Release",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-S",
+                ".",
+                "-B",
+                "build",
+                "-G",
+                "MinGW Makefiles"
             ],
             "group": "build",
             "problemMatcher": []
@@ -32,15 +47,14 @@
         {
             "label": "Build and Run",
             "type": "shell",
-            "command": "gnome-terminal",
+            "command": "cmd.exe",
             "args": [
-                "--",
-                "bash",  
-                "-c",
-                "./${fileBasenameNoExtension}"
+                "/c",
+                "start",
+                "${fileBasenameNoExtension}.exe"
             ],
             "dependsOn": [
-                "CMake Configure","CMake Build"
+                "CMake Configure Release","CMake Build"
             ],
             "group": {
                 "kind": "build",
@@ -62,7 +76,7 @@
                 "Debug"
             ],
             "dependsOn": [
-                "CMake Configure",
+                "CMake Configure Debug"
             ],
             "group": {
                 "kind": "build",
