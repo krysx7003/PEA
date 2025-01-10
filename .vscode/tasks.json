@@ -54,7 +54,8 @@
                 "${fileBasenameNoExtension}.exe"
             ],
             "dependsOn": [
-                "CMake Configure Release","CMake Build"
+                "CMake Configure Release",
+                "CMake Build"
             ],
             "group": {
                 "kind": "build",

@@ -17,7 +17,6 @@
 #include "Graph.hpp"
 #include "Node.hpp"
 
-
 using json = nlohmann::json;
 using namespace std;
 
@@ -123,11 +122,11 @@ int nearest_neighbour(){
 int tabuSearch(){
     int optimalRes = config["instance"]["optimalRes"];
     bool showProgress = config["algorithms"]["showProgress"];
-    int maxIterations = gSize * (int)config["algorithms"]["maxMultiplier"];
     int tabuLength = gSize * (int)config["algorithms"]["lenMultiplier"];
     int improvementCount = config["algorithms"]["improvementCount"];
     string startPath = config["algorithms"]["startPath"];
-    int estimatedCount = maxIterations,fraction = 0;
+    string searchEnv = config["algorithms"]["searchEnv"];
+    int estimatedCount = maxtime,fraction = 0;
     auto rng = default_random_engine {};
     if(showProgress){
         fraction = estimatedCount/(width*20);
@@ -140,6 +139,7 @@ int tabuSearch(){
     vector<int> currPath;int currVal = INT_MAX;
     vector<vector<int>> neighbors; 
     vector<vector<int>> tabuList; 
+    chrono::duration<double, nano> currTime;
     graph->readFromFile(config["instance"]["inputFile"]);
     auto startT = chrono::high_resolution_clock::now();
     for(int i = 0;i<gSize;i++){
@@ -149,21 +149,28 @@ int tabuSearch(){
         shuffle(begin(currPath), end(currPath), rng);
     }
     currVal = pathValue(currPath,graph);
-    for(int count = 0;count < maxIterations;count++){
-        // for(int i = 0;i<gSize;i++){
-        //     for(int j = 0;j<gSize;j++){
-        //         vector<int> neighbor = currPath;
-        //         swap(neighbor[i],neighbor[j]);
-        //         neighbors.push_back(neighbor);
-        //     }
-        // }
-        for (int i = 0; i < gSize; i++) {
-            int x = rand() % gSize;
-            int y = rand() % gSize;
-            while (x == y) y = rand() % gSize;
-            vector<int> neighbor = currPath;
-            swap(neighbor[x], neighbor[y]);
-            neighbors.push_back(neighbor);
+    if(startPath == "nn"){
+        currVal = nearest_neighbour();
+        currPath = resPath;
+    }
+    while(currTime.count()<maxtime){
+        if(searchEnv == "all"){
+            for(int i = 0;i<gSize;i++){
+                for(int j = 0;j<gSize;j++){
+                    vector<int> neighbor = currPath;
+                    swap(neighbor[i],neighbor[j]);
+                    neighbors.push_back(neighbor);
+                }
+            }
+        }else{
+            for (int i = 0; i < gSize; i++) {
+                int x = rand() % gSize;
+                int y = rand() % gSize;
+                while (x == y) y = rand() % gSize;
+                vector<int> neighbor = currPath;
+                swap(neighbor[x], neighbor[y]);
+                neighbors.push_back(neighbor);
+            }
         }
         vector<int> bestPath;int bestVal = INT_MAX;
         for(vector<int>neighbor:neighbors){
@@ -189,10 +196,12 @@ int tabuSearch(){
             tabuList.erase(tabuList.begin());
         }
         if(showProgress){
-            if(count%fraction==0){
-                printBar((double)count/estimatedCount ,"Metoda Wyzarzania\t\t");
+            if(currTime.count()%fraction==0){
+                printBar((double)currTime.count()/estimatedCount ,"Metoda Wyzarzania\t\t");
             }
         }
+        auto endT = chrono::high_resolution_clock::now();
+        currTime = endT - startT;
     }
     auto endT = chrono::high_resolution_clock::now();//Koniec pomiaru czasu
     duration = endT - startT;
@@ -224,6 +233,7 @@ int simulatedAnealing(){
     string startPath = config["algorithms"]["startPath"];
     string newPathMethod = config["algorithms"]["newPathMethod"];
     int epochLen = config["algorithms"]["epochLen"];
+    chrono::duration<double, nano> currTime;
     int estimatedCount = 0,fraction = 0;
     auto rng = default_random_engine {};
     if(showProgress){
@@ -238,14 +248,18 @@ int simulatedAnealing(){
     resPath.clear();
     graph->readFromFile(config["instance"]["inputFile"]);
     auto startT = chrono::high_resolution_clock::now();
-    currVal = nearest_neighbour();
     for(int i = 0;i<gSize;i++){
         currPath.push_back(i);
     }
     if (startPath == "random"){
         shuffle(begin(currPath), end(currPath), rng);
     }
-    while(currTemp>minTemp && noImprovement > improvementCount){
+    currVal = pathValue(currPath,graph);
+    if(startPath == "nn"){
+        currVal = nearest_neighbour();
+        currPath = resPath;
+    }
+    while(currTemp>minTemp && noImprovement < improvementCount && currTime.count()<maxtime){
         for(int i = 0;i<epochLen;i++){
             vector<int> newPath = currPath;
             int firstItem = rand()%gSize;
@@ -276,6 +290,8 @@ int simulatedAnealing(){
                 printBar((double)count/estimatedCount ,"Metoda Wyzarzania\t\t");
             }
         }
+        auto endT = chrono::high_resolution_clock::now();
+        currTime = endT - startT;
     }
     auto endT = chrono::high_resolution_clock::now();//Koniec pomiaru czasu
     duration = endT - startT;
@@ -545,3 +561,6 @@ int main(){
 
     return 0;
 }
+//schemat zmiany temp
+//czas
+//kryterium aspiracji
