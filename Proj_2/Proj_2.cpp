@@ -126,11 +126,11 @@ int tabuSearch(){
     int improvementCount = config["algorithms"]["improvementCount"];
     string startPath = config["algorithms"]["startPath"];
     string searchEnv = config["algorithms"]["searchEnv"];
-    int estimatedCount = maxtime,fraction = 0;
-    auto rng = default_random_engine {};
+    long long estimatedCount = maxtime,fraction = 0;
+    auto rng = default_random_engine {chrono::system_clock::now().time_since_epoch().count()};
     if(showProgress){
-        fraction = estimatedCount/(width*20);
-        printBar(0,"\nMetoda Tabu Search\t\t");
+        fraction = 1000000000;
+        printBar(0,"\nMetoda Tabu Search\t");
     }
     int res = INT_MAX;
     int noImprovement = 0;
@@ -141,7 +141,6 @@ int tabuSearch(){
     vector<vector<int>> tabuList; 
     chrono::duration<double, nano> currTime;
     graph->readFromFile(config["instance"]["inputFile"]);
-    auto startT = chrono::high_resolution_clock::now();
     for(int i = 0;i<gSize;i++){
         currPath.push_back(i);
     }
@@ -152,23 +151,14 @@ int tabuSearch(){
     if(startPath == "nn"){
         currVal = nearest_neighbour();
         currPath = resPath;
+        resPath = currPath; res = currVal;
     }
+    auto startT = chrono::high_resolution_clock::now();
     while(currTime.count()<maxtime){
-        if(searchEnv == "all"){
-            for(int i = 0;i<gSize;i++){
-                for(int j = 0;j<gSize;j++){
-                    vector<int> neighbor = currPath;
-                    swap(neighbor[i],neighbor[j]);
-                    neighbors.push_back(neighbor);
-                }
-            }
-        }else{
-            for (int i = 0; i < gSize; i++) {
-                int x = rand() % gSize;
-                int y = rand() % gSize;
-                while (x == y) y = rand() % gSize;
+        for(int i = 0;i<gSize-1;i++){
+            for(int j = 0;j<gSize-1;j++){
                 vector<int> neighbor = currPath;
-                swap(neighbor[x], neighbor[y]);
+                swap(neighbor[i],neighbor[j]);
                 neighbors.push_back(neighbor);
             }
         }
@@ -181,27 +171,30 @@ int tabuSearch(){
             if(find(tabuList.begin(), tabuList.end(), neighbor) == tabuList.end() || noImprovement>improvementCount){
                 if(val<bestVal){
                     bestPath = neighbor;bestVal = val;
-                }
-                noImprovement = 0;
-            }else{
-                noImprovement++;
-            }   
+                    cout<<bestVal<<" "<<noImprovement<<"\n";
+                    noImprovement = 0;
+                }else{
+                    noImprovement++;
+                }  
+            }
         }
         currPath = bestPath;currVal = bestVal;
         if(bestVal<res){
             resPath = bestPath;res = bestVal;
-        }
+        } 
         tabuList.push_back(bestPath);
         if(tabuList.size()>tabuLength){
             tabuList.erase(tabuList.begin());
         }
-        if(showProgress){
-            if(currTime.count()%fraction==0){
-                printBar((double)currTime.count()/estimatedCount ,"Metoda Wyzarzania\t\t");
-            }
-        }
         auto endT = chrono::high_resolution_clock::now();
         currTime = endT - startT;
+        if(showProgress){
+            if(currTime.count()>=fraction){
+                double tmp = (currTime.count()/1000)/(estimatedCount/1000); 
+                printBar(tmp,"Metoda Tabu Search\t");
+                fraction += 1000000000;
+            }
+        }
     }
     auto endT = chrono::high_resolution_clock::now();//Koniec pomiaru czasu
     duration = endT - startT;
@@ -237,7 +230,7 @@ int simulatedAnealing(){
     int estimatedCount = 0,fraction = 0;
     auto rng = default_random_engine {};
     if(showProgress){
-        estimatedCount = log(minTemp / currTemp) / log(alpha);
+        estimatedCount = currTemp / log(alpha);
         fraction = estimatedCount/(width*20);
         printBar(0,"\nMetoda Wyzarzania\t\t");
     }
@@ -247,7 +240,6 @@ int simulatedAnealing(){
     Graph* graph = new Graph(gSize);
     resPath.clear();
     graph->readFromFile(config["instance"]["inputFile"]);
-    auto startT = chrono::high_resolution_clock::now();
     for(int i = 0;i<gSize;i++){
         currPath.push_back(i);
     }
@@ -259,6 +251,7 @@ int simulatedAnealing(){
         currVal = nearest_neighbour();
         currPath = resPath;
     }
+    auto startT = chrono::high_resolution_clock::now();
     while(currTemp>minTemp && noImprovement < improvementCount && currTime.count()<maxtime){
         for(int i = 0;i<epochLen;i++){
             vector<int> newPath = currPath;
@@ -513,7 +506,7 @@ int main(){
     }else{
         cout<<"Could not open config file!\n";
     }
-    srand(time(NULL));
+    srand(time(0));
     bool showProgress = config["settings"]["showProgress"];
     bool printToConsol = config["settings"]["printToConsol"];
     bool test = config["settings"]["test"];
