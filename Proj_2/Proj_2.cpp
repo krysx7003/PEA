@@ -135,7 +135,6 @@ int tabuSearch(){
     string startPath = config["algorithms"]["startPath"];
     string newPathMethod = config["algorithms"]["newPathMethod"];
     long long estimatedCount = maxtime,fraction = 0;
-    unsigned long counter=0;
     auto rng = default_random_engine {chrono::system_clock::now().time_since_epoch().count()};
     if(showProgress){
         fraction = 1000000000;
@@ -230,14 +229,12 @@ int tabuSearch(){
                 fraction += 1000000000;
             }
         }
-        counter++;
     }
     auto endT = chrono::high_resolution_clock::now();//Koniec pomiaru czasu
     duration = endT - startT;
     if(showProgress){
         clear_input();
     }
-    cout<<counter<<"\n";
     delete graph;
     return res;
 }
@@ -334,101 +331,102 @@ int simulatedAnealing(){
     return res;
 }
 vector<vector<float>> pheromoneLevels;
+int betaA,alfa;
 int choseVert(int currentVert,vector<int> visited,Graph* graph){
     vector<float> probs;
     float sum = 0.0f;
     for(int i = 0;i<gSize;i++){
         if(find(visited.begin(), visited.end(), i) == visited.end()){
-            float heuristic = graph->getMatrixItem(currentVert, i);
-            float pheromone = pheromoneLevels[currentVert][i];
-            float prob = pheromone * heuristic;
+            cout<<i;//Coconut.jpg
+            float eta = pow(1.0/graph->getMatrixItem(currentVert, i),betaA);
+            float tau = pow(pheromoneLevels[currentVert][i],alfa);
+            float prob = tau * eta;
             probs.push_back(prob);
-            sum += prob;
-        }else {
+            sum += prob; 
+        } else {
             probs.push_back(0.0f); 
         }
     }
-    if(sum == 0){
-        return -1;
-    }
-    for (int i = 0; i < probs.size(); i++) {
-        probs[i] /= sum;
-    }
-    float random = ((float)rand() / RAND_MAX);
+    float random = ((float)rand() / (RAND_MAX + 1.0f));
     float cumulative = 0.0f;
+    cout<<"\r";
     for (int i = 0; i < gSize; i++) {
-        if (find(visited.begin(), visited.end(), i) == visited.end()) {
-            cumulative += probs[i];
-            if (random < cumulative) {
-                return i;
-            }
+        cumulative += probs[i]/sum;
+        if (random <= cumulative) {
+            return i;
         }
-    }
-    return -1; 
+    }  
+    return -1;
 }
 int antColony(){
     int optimalRes = config["instance"]["optimalRes"];
     bool showProgress = config["algorithms"]["showProgress"];
-    int antsNumber = config["algorithms"]["antsNumber"];
-    int iterations = config["algorithms"]["iterations"];
+    int antsNumber = gSize;
     float rho = config["algorithms"]["rho"];
-    int estimatedCount = 0,fraction = 0;
+    alfa = config["algorithms"]["alfa"];
+    betaA = config["algorithms"]["beta"];
+    string updatePheromones = config["algorithms"]["updatePheromones"];
+    int improvementCount = config["algorithms"]["improvementCount"];
+    long long estimatedCount = maxtime,fraction = 0;
     if(showProgress){
-        estimatedCount = iterations;
-        fraction = estimatedCount/(width*20);
-        printBar(0,"\nAlgorytm mrowkowy\t\t");
+        fraction = 1000000000;
+        printBar(0,"\nAlgorytm mrowkowy\t");
     }
     int res,count = 0;
-    vector<int> currPath;
     vector<int> bestPath;int bestVal = INT_MAX;
+    pheromoneLevels.clear();
     vector<vector<int>> allPaths;
     Graph* graph = new Graph(gSize);
     resPath.clear();
+    chrono::duration<double, nano> currTime;
     graph->readFromFile(config["instance"]["inputFile"]);
     auto startT = chrono::high_resolution_clock::now();
-    pheromoneLevels.resize(gSize, vector<float>(gSize, 1.0f));
-    for(int i = 0;i<iterations;i++){
-        for(int j = 0;j<antsNumber;j++){
-            currPath.clear();
+    bestVal = nearest_neighbour();
+    bestPath = resPath;
+    float cnn = (float)gSize/(bestVal/100);
+    pheromoneLevels.resize(gSize, vector<float>(gSize,cnn));
+    while(currTime.count()<maxtime){
+        for(int i=0;i<antsNumber;i++){
+            vector<int> currPath;int currVal;
             int currVert = rand()%gSize;
-            vector<int> visited;
-            visited.push_back(currVert);
             currPath.push_back(currVert);
-            while(visited.size()<gSize){
-                int nextVert = choseVert(currVert,visited,graph);
-                if(nextVert == -1){
-                    break;
-                }
-                visited.push_back(nextVert);
+            while(currPath.size()<gSize){
+                int nextVert = choseVert(currVert,currPath,graph);
                 currPath.push_back(nextVert);
                 currVert = nextVert;
+                if(updatePheromones == "QAS"){
+                    int prevVert = currPath[currPath.size()-2], lastVert = currPath[currPath.size()-1];
+                    pheromoneLevels[prevVert][lastVert] += (float)gSize/graph->getMatrixItem(prevVert,lastVert);
+                }
             }
-            int val = pathValue(currPath,graph);
-            if(val<0){
-                continue;
+            if(updatePheromones == "QAS"){
+                int prevVert = currPath[currPath.size()-1], lastVert = currPath[0];
+                pheromoneLevels[prevVert][lastVert] += (float)gSize/graph->getMatrixItem(prevVert,lastVert);
             }
-            if(val<bestVal){
-                bestVal = val;
-                bestPath = currPath;
+            currVal = pathValue(currPath,graph);
+            if(updatePheromones == "CAS"){
+                for(int j=0;j<currPath.size();j++){
+                    pheromoneLevels[currPath[j]][currPath[(j+1)%gSize]] += (float)gSize/(currVal/100); 
+                }  
             }
-            allPaths.push_back(currPath);
-        }
-        for (int j = 0; j< gSize; j++) {
-            for (int k = 0; k < gSize; k++) {
-                pheromoneLevels[j][k] *= (1 - rho);
-            }
-        }
-        for(vector<int> path:allPaths){
-            int val = pathValue(path, graph);
-            float pheromone = 1.0f/val;
-            for(int j = 0;j<gSize-1;j++){
-                pheromoneLevels[path[j]][path[j+1]] += pheromone;
+            if(currVal<bestVal){
+                bestPath = currPath;bestVal = currVal;
             }
         }
+        for(int i=0;i<gSize;i++){
+            for(int j=0;j<gSize;j++){
+                pheromoneLevels[i][j] *= rho;
+            }
+        }
+        auto endT = chrono::high_resolution_clock::now();
+        currTime = endT - startT;
         if(showProgress){
-            count++;
             if(count%fraction==0){
-                printBar((double)count/estimatedCount ,"Algorytm mrowkowy\t\t");
+                if(currTime.count()>=fraction){
+                    double tmp = (currTime.count()/1000)/(estimatedCount/1000); 
+                    printBar(tmp,"Algorytm mrowkowy\t");
+                    fraction += 1000000000;
+                }
             }
         }
     }

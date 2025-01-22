@@ -12,30 +12,34 @@
     },
     "csvTitleString": "Optymalny wynik,Optymalna scieżka,Otrzymany wynik,Otrzymana scieżka,Czas wykonania,Blad bezwzgledny,Blad wzgledny (liczbowo),Blad wzgledny (procentowo)",
     "instance": {
-        "algorithName": "tabuSearch",          "_comment1":"Nazwa wybranego algorytmu.Musi odpowiadać jednej z nazw w sekcji algorithms",
-        "inputFile": "//Dane//ATSP//kro100p.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
+        "algorithName": "antColony",          "_comment1":"Nazwa wybranego algorytmu.Musi odpowiadać jednej z nazw w sekcji algorithms",
+        "inputFile": "//Dane//ATSP//ftv64.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
         "outputFile": "//Wyniki//finalresoult.csv", "_comment3":"Nazwa pliku wyjściowego",
-        "size": 100,                             "_comment4":"Rozmiar macierzy",
-        "optimalRes": 36230,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
+        "size": 64,                             "_comment4":"Rozmiar macierzy",
+        "optimalRes": 1839,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
         "optimalPath": "" ,                     "_comment6":"Optymalna scieżka. Wyświetlana w konsoli dla porównania ze znalezioną"
     },
     "algorithms": {
         "tabuSearch": "tabuSearch",
         "simulatedAnealing": "simulatedAnealing",
         "antColony": "antColony",
-        "maxMultiplier" : 0.05, 
-        "lenMultiplier" : 0.3,
-        "improvementCount" : 150,
         "startPath" : "nn",
         "newPathMethod": "swap",
         "searchEnv": "all",
+
+        "maxMultiplier" : 0.05, 
+        "lenMultiplier" : 0.3,
+        "improvementCount" : 150,
+
         "minTemp": 0.0001,
         "alpha": 0.999,
         "currTemp": 10000,
         "epochLen": 40,
-        "antsNumber": 20,
-        "iterations": 10,
+        
         "rho": 0.5,
+        "alfa": 1,
+        "beta": 3,
+        "updatePheromones": "CAS",
         "showProgress": true,                     "_comment2":"Pokazuje jaki procent danej metody wykonano. Będzie wpływać na czas wykonania"
     }
   }

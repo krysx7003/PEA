@@ -19,7 +19,7 @@ target_compile_options(Proj_1 PRIVATE
         -march=x86-64
 )
 target_compile_options(Proj_2 PRIVATE
-        -O3
+        -O0
         -march=x86-64
 )
 
