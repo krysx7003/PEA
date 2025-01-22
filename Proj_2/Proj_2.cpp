@@ -137,12 +137,10 @@ int tabuSearch(){
     long long estimatedCount = maxtime,fraction = 0;
     unsigned long counter=0;
     auto rng = default_random_engine {chrono::system_clock::now().time_since_epoch().count()};
-
     if(showProgress){
         fraction = 1000000000;
         printBar(0,"\nMetoda Tabu Search\t");
     }
-    
     int res = INT_MAX;
     int noImprovement = 0;
     Graph* graph = new Graph(gSize);
@@ -553,8 +551,8 @@ int main(){
     gSize = config["instance"]["size"]; 
     int iterations = config["settings"]["iterations"];   
     string funcName = config["instance"]["algorithName"];
-    maxtime = config["settings"]["time"];//czas podany w minutach
-    maxtime *= 60000000000;//1 minuta to 6*10^9 ns
+    float timeMin = config["settings"]["time"];
+    maxtime = 60000000000 * timeMin;//czas podany w minutach
     //Mapuje napis z configa do odpowiadającedj mu funkcji
     map<string,function<int()>> funcMap = {
         {config["algorithms"]["tabuSearch"],tabuSearch},
