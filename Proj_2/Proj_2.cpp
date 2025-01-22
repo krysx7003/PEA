@@ -119,26 +119,38 @@ int nearest_neighbour(){
     delete graph;
     return res;
 }
+bool isInTabu(pair<int,int> move,vector<pair<int,int>> tabuList){
+    for(pair<int,int> tabuMove:tabuList){
+        if(move == tabuMove){
+            return true;
+        }
+    }
+    return false;
+}
 int tabuSearch(){
     int optimalRes = config["instance"]["optimalRes"];
     bool showProgress = config["algorithms"]["showProgress"];
     int tabuLength = gSize * (int)config["algorithms"]["lenMultiplier"];
     int improvementCount = config["algorithms"]["improvementCount"];
     string startPath = config["algorithms"]["startPath"];
-    string searchEnv = config["algorithms"]["searchEnv"];
+    string newPathMethod = config["algorithms"]["newPathMethod"];
     long long estimatedCount = maxtime,fraction = 0;
+    unsigned long counter=0;
     auto rng = default_random_engine {chrono::system_clock::now().time_since_epoch().count()};
+
     if(showProgress){
         fraction = 1000000000;
         printBar(0,"\nMetoda Tabu Search\t");
     }
+    
     int res = INT_MAX;
     int noImprovement = 0;
     Graph* graph = new Graph(gSize);
     resPath.clear();
     vector<int> currPath;int currVal = INT_MAX;
     vector<vector<int>> neighbors; 
-    vector<vector<int>> tabuList; 
+    vector<pair<int,int>> tabuList;
+    vector<pair<int,int>> moves;  
     chrono::duration<double, nano> currTime;
     graph->readFromFile(config["instance"]["inputFile"]);
     for(int i = 0;i<gSize;i++){
@@ -155,34 +167,59 @@ int tabuSearch(){
     }
     auto startT = chrono::high_resolution_clock::now();
     while(currTime.count()<maxtime){
-        for(int i = 0;i<gSize-1;i++){
-            for(int j = 0;j<gSize-1;j++){
+        if(newPathMethod == "swap"){
+            for(int i = 0;i<gSize;i++){
+                for(int j = i+1;j<gSize;j++){
+                    vector<int> neighbor = currPath;
+                    swap(neighbor[i],neighbor[j]);
+                    neighbors.push_back(neighbor);
+                    moves.push_back({i,j});
+                }
+            }         
+        }else if(newPathMethod == "insert"){
+            for(int it = 0;it<(gSize*gSize-1)/2;it++){
+                int i = rand()%gSize;
+                int j = rand()%gSize;
                 vector<int> neighbor = currPath;
-                swap(neighbor[i],neighbor[j]);
+                int tmp = neighbor[i];
+                neighbor.erase(neighbor.begin() + i);
+                neighbor.insert(neighbor.begin() + j, tmp); 
                 neighbors.push_back(neighbor);
-            }
+                moves.push_back({i,j});
+            }       
         }
-        vector<int> bestPath;int bestVal = INT_MAX;
-        for(vector<int>neighbor:neighbors){
+        vector<int> bestPath;int bestVal = INT_MAX;pair<int,int> bestMove;
+        for(int i =0;i<neighbors.size();i++){
+            vector<int>neighbor = neighbors[i];
             int val = pathValue(neighbor,graph);
             if(val<0){
                 continue;
             }
-            if(find(tabuList.begin(), tabuList.end(), neighbor) == tabuList.end() || noImprovement>improvementCount){
+            if(!isInTabu(moves[i],tabuList)){
                 if(val<bestVal){
-                    bestPath = neighbor;bestVal = val;
-                    cout<<bestVal<<" "<<noImprovement<<"\n";
+                    bestPath = neighbor;bestVal = val;bestMove = moves[i];
                     noImprovement = 0;
                 }else{
                     noImprovement++;
                 }  
+            }else if(val<res){
+                bestPath = neighbor;bestVal = val;bestMove = moves[i];
+                noImprovement = 0;
             }
         }
-        currPath = bestPath;currVal = bestVal;
+        moves.clear();
+        neighbors.clear();
+        if(noImprovement>improvementCount){
+            shuffle(begin(currPath), end(currPath), rng);
+            noImprovement = 0;
+        }else{
+            currPath = bestPath;currVal = bestVal;
+            tabuList.push_back(bestMove);
+        }
         if(bestVal<res){
             resPath = bestPath;res = bestVal;
+            cout<<res<<"\n";
         } 
-        tabuList.push_back(bestPath);
         if(tabuList.size()>tabuLength){
             tabuList.erase(tabuList.begin());
         }
@@ -195,12 +232,14 @@ int tabuSearch(){
                 fraction += 1000000000;
             }
         }
+        counter++;
     }
     auto endT = chrono::high_resolution_clock::now();//Koniec pomiaru czasu
     duration = endT - startT;
     if(showProgress){
         clear_input();
     }
+    cout<<counter<<"\n";
     delete graph;
     return res;
 }

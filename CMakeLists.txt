@@ -15,11 +15,11 @@ target_include_directories(Proj_1 PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_include_directories(Proj_2 PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 target_compile_options(Proj_1 PRIVATE
-        -O0
+        -O3
         -march=x86-64
 )
 target_compile_options(Proj_2 PRIVATE
-        -O0
+        -O3
         -march=x86-64
 )
 
