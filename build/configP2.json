@@ -13,9 +13,9 @@
     "csvTitleString": "Optymalny wynik,Otrzymany wynik,Czas wykonania,Blad wzgledny (procentowo)",
     "instance": {
         "algorithName": "antColony",          "_comment1":"Nazwa wybranego algorytmu.Musi odpowiadać jednej z nazw w sekcji algorithms",
-        "inputFile": "\\Dane\\TSP\\rat99.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
+        "inputFile": "\\Dane\\ATSP\\ftv33.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
         "outputFile": "\\Wyniki\\test.csv", "_comment3":"Nazwa pliku wyjściowego",
-        "size": 99,                             "_comment4":"Rozmiar macierzy",
+        "size": 33,                             "_comment4":"Rozmiar macierzy",
         "optimalRes": 1211,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
         "optimalPath": "" ,                     "_comment6":"Optymalna scieżka. Wyświetlana w konsoli dla porównania ze znalezioną"
     },
