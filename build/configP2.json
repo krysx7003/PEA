@@ -2,9 +2,9 @@
     "settings": {
       "showProgress": true,   "_comment1": "Pokazuje ile instancji już wykonano. Nie powinno wpływać na czas wykonania algorytmów",
       "printToConsol": true,  "_comment2": "Możliwość schowania wyświetlenia wyników w konsoli. Do testów żeby pasek postępu był bardziej widoczny", 
-      "iterations": 1,        "_comment3": "Ilość iteracji wybranego algorytmu",
+      "iterations": 4,        "_comment3": "Ilość iteracji wybranego algorytmu",
       "maxDisplaySize": 16,   "_comment4": "Maksymalna szerokość ścieżki do wyświetlenia",
-      "time": 0.0005,             "_comment5": "Ograniczenie czasowe algorytmu (Podane w minutach)",
+      "time": 0.5,             "_comment5": "Ograniczenie czasowe algorytmu (Podane w minutach)",
       "barWidth": 20,         "_comment6": "Szerokość paska postępu",
       "test": false,           "_comment7": "Jeżeli true włączona zostaje procedura badawcza",
       "bigGraph": 13,         "_comment8": "Rozmiar największego grafu w procedurze badawczej",
@@ -12,18 +12,18 @@
     },
     "csvTitleString": "Optymalny wynik,Otrzymany wynik,Czas wykonania,Blad wzgledny (procentowo)",
     "instance": {
-        "algorithName": "tabuSearch",          "_comment1":"Nazwa wybranego algorytmu.Musi odpowiadać jednej z nazw w sekcji algorithms",
-        "inputFile": "//Dane//ATSP//ftv170.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
-        "outputFile": "//Wyniki//test1.csv", "_comment3":"Nazwa pliku wyjściowego",
-        "size": 170,                             "_comment4":"Rozmiar macierzy",
-        "optimalRes": 2755,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
+        "algorithName": "antColony",          "_comment1":"Nazwa wybranego algorytmu.Musi odpowiadać jednej z nazw w sekcji algorithms",
+        "inputFile": "\\Dane\\TSP\\rat99.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
+        "outputFile": "\\Wyniki\\test.csv", "_comment3":"Nazwa pliku wyjściowego",
+        "size": 99,                             "_comment4":"Rozmiar macierzy",
+        "optimalRes": 1211,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
         "optimalPath": "" ,                     "_comment6":"Optymalna scieżka. Wyświetlana w konsoli dla porównania ze znalezioną"
     },
     "algorithms": {
         "tabuSearch": "tabuSearch",
         "simulatedAnealing": "simulatedAnealing",
         "antColony": "antColony",
-        "startPath" : "random",
+        "startPath" : "nn",
         "newPathMethod": "swap",
         "searchEnv": "all",
 
@@ -39,7 +39,7 @@
         "rho": 0.5,
         "alfa": 1,
         "beta": 3,
-        "updatePheromones": "CAS",
+        "updatePheromones": "QAS",
         "showProgress": false,                     "_comment2":"Pokazuje jaki procent danej metody wykonano. Będzie wpływać na czas wykonania"
     }
   }
