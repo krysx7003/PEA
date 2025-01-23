@@ -215,7 +215,6 @@ int tabuSearch(){
         }
         if(bestVal<res){
             resPath = bestPath;res = bestVal;
-            cout<<res<<"\n";
         } 
         if(tabuList.size()>tabuLength){
             tabuList.erase(tabuList.begin());
@@ -337,7 +336,7 @@ int choseVert(int currentVert,vector<int> visited,Graph* graph){
     float sum = 0.0f;
     for(int i = 0;i<gSize;i++){
         if(find(visited.begin(), visited.end(), i) == visited.end()){
-            cout<<i;//Coconut.jpg
+            cout<<i<<"\r";//Coconut.jpg
             float eta = pow(1.0/graph->getMatrixItem(currentVert, i),betaA);
             float tau = pow(pheromoneLevels[currentVert][i],alfa);
             float prob = tau * eta;
@@ -349,7 +348,6 @@ int choseVert(int currentVert,vector<int> visited,Graph* graph){
     }
     float random = ((float)rand() / (RAND_MAX + 1.0f));
     float cumulative = 0.0f;
-    cout<<"\r";
     for (int i = 0; i < gSize; i++) {
         cumulative += probs[i]/sum;
         if (random <= cumulative) {
@@ -372,6 +370,7 @@ int antColony(){
         fraction = 1000000000;
         printBar(0,"\nAlgorytm mrowkowy\t");
     }
+    cout<<"\n";
     int res,count = 0;
     vector<int> bestPath;int bestVal = INT_MAX;
     pheromoneLevels.clear();
@@ -429,6 +428,7 @@ int antColony(){
                 }
             }
         }
+        system("cls");
     }
     auto endT = chrono::high_resolution_clock::now();//Koniec pomiaru czasu
     duration = endT - startT;
@@ -484,28 +484,14 @@ void write(int res){
         string row;
         row.append(to_string((int)optimalRes));//Optymalny wynik
         row.append(",");
-        //Optymalna scieżka
-        row.append(optimalPath);
-        row.append(",");
         if(abs(res)<=2000000000){
             row.append(to_string(res));//Otrzymany wynik
         }
         row.append(",");
-        //Otrzymana scieżka
-        for (int number : resPath) {
-            row.append(to_string(number+1));
-            row.append("-");
-        }
-        row.pop_back();//Usuwa nadmiarowy -
-        row.append(",");
-        row.append(to_string(duration.count()));//Czas wykonania
+        row.append(to_string(duration.count()/60000000000));//Czas wykonania
         row.append(",");
         double absError = abs(res-optimalRes);
         double error = absError/optimalRes;
-        row.append(to_string(absError));//Blad bezwzgledny
-        row.append(",");
-        row.append(to_string(error));//Blad wzgledny (liczbowo)
-        row.append(",");
         row.append(to_string(error*100));//"Blad wzgledny (procentowo)
         row.append("%\n");
         outputFile<<row;
@@ -522,17 +508,141 @@ void write_header(string funcName){
         string title = config["csvTitleString"];
         outputFile<<title<<"\n";
     }
-    outputFile<<fileNameIn<<", "<<funcName;
-    string parameters = "";
-    if(funcName=="random" || funcName=="brute-force"){
-        parameters.append(",");
-        parameters.append(to_string(config["settings"]["time"]));
-        parameters.append("min");  
-    }
-    parameters.append(",");
-    parameters.append(bool_to_string(config["algorithms"]["showProgress"]));
-    outputFile<<parameters<<"\n";
+    outputFile<<fileNameIn<<"\n ";
     outputFile.close();
+}
+void test(function<int()> testFunc){
+    string asymFiles[] = {"ftv33.txt","ftv64.txt","ftv170.txt","kro100p.txt"}; 
+    int asymSizes[] = {33,64,100};
+    int asymOptValues[] = {1286,1839,36230};
+    string symFiles[] = {"rat99.txt","pr152.txt","ts225.txt","pr264.txt"};
+    int symSizes[] = {99,152,225,264};
+    int symOptValues[] = {1211,73682,126643,49135};
+    cout<<"\n"; 
+    for(int i=0;i<4;i++){
+        printBar((double)i/4,"Symetryczne \t\t");
+        write_header("");
+        string fileName ="//Dane//TSP//"+symFiles[i];
+        config["instance"]["inputFile"] = fileName;
+        gSize = symSizes[i];
+        config["instance"]["optimalRes"] = symOptValues[i];
+        int res = testFunc();
+        write(res);
+    }
+    for(int i=0;i<3;i++){
+        printBar((double)i/4,"Asymetryczne \t\t");
+        write_header("");
+        string fileName ="//Dane//ATSP//"+asymFiles[i];
+        config["instance"]["inputFile"] = fileName;
+        gSize = asymSizes[i];
+        config["instance"]["optimalRes"] = asymOptValues[i];
+        int res = testFunc();
+        write(res);
+    }
+}
+void setupTests(){
+    width = config["settings"]["barWidth"];
+    int i = 0,iterations = 25;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["startPath"] = "random";
+    config["instance"]["outputFile"] = "//Wyniki//TsRandom.csv";
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["startPath"] = "nn";
+    config["instance"]["outputFile"] = "//Wyniki//TsNN.csv";
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["startPath"] = "nn";
+
+    config["algorithms"]["newPathMethod"] = "swap";
+    config["instance"]["outputFile"] = "//Wyniki//TsSwap.csv";
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["newPathMethod"] = "insert";
+    config["instance"]["outputFile"] = "//Wyniki//TsInsert.csv";
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["newPathMethod"] = "insert";
+
+    config["algorithms"]["lenMultiplier"] = 0.5;
+    config["instance"]["outputFile"] = "//Wyniki//TsTabuLen.csv";
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["lenMultiplier"] = 0.4;
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["lenMultiplier"] = 0.3;
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["lenMultiplier"] = 0.2;
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["lenMultiplier"] = 0.1;
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+
+    config["algorithms"]["improvementCount"] = 25;
+    config["instance"]["outputFile"] = "//Wyniki//TsCount.csv";
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["improvementCount"] = 50;
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["improvementCount"] = 75;
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["improvementCount"] = 100;
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["improvementCount"] = 125;
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+
+    config["algorithms"]["updatePheromones"] = "QAS";
+    config["instance"]["outputFile"] = "//Wyniki//AoQAS.csv";
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["updatePheromones"] = "CAS";
+    config["instance"]["outputFile"] = "//Wyniki//AoCAS.csv";
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["updatePheromones"] = "QAS";
+    
+    config["algorithms"]["rho"] = 0.8;
+    config["instance"]["outputFile"] = "//Wyniki//AoRho.csv";
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["rho"] = 0.6;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["rho"] = 0.4;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["rho"] = 0.2;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+
+    config["algorithms"]["alfa"] = 1;
+    config["instance"]["outputFile"] = "//Wyniki//AoAB.csv";
+    config["algorithms"]["beta"] = 3;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["alfa"] = 2;
+    config["algorithms"]["beta"] = 3;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["alfa"] = 3;
+    config["algorithms"]["beta"] = 3;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["alfa"] = 3;
+    config["algorithms"]["beta"] = 2;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["alfa"] = 3;
+    config["algorithms"]["beta"] = 1;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
 }
 int main(){
     ifstream file("configP2.json");
@@ -557,6 +667,7 @@ int main(){
         {config["algorithms"]["simulatedAnealing"],simulatedAnealing},
         {config["algorithms"]["antColony"],antColony}
     };
+    setupTests();
      //W mapie znajduej odpowiednią funkcje i ją uruchamiam
     if(funcMap.find(funcName)!=funcMap.end()){
         write_header(funcName);

@@ -1,0 +1,7 @@
+Optymalny wynik,Otrzymany wynik,Czas wykonania,Blad wzgledny (procentowo)
+//Dane//ATSP//ftv170.txt
+ 1211,1437,0.119212,18.662263%
+//Dane//TSP//rat99.txt
+ 73682,79564,0.448788,7.982954%
+//Dane//TSP//pr152.txt
+ 
