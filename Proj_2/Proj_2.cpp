@@ -559,7 +559,7 @@ void test(function<int()> testFunc){
 }
 void setupTests(){
     width = config["settings"]["barWidth"];
-    int i = 0,iterations = 25;
+    int i = 0,iterations = 3;
     
     // printBar((double)i/iterations,"Caly program \t\t");
     // config["algorithms"]["startPath"] = "random";
@@ -628,37 +628,16 @@ void setupTests(){
     config["instance"]["outputFile"] = "//Wyniki//AoRho.csv";
     test(antColony);i++;
     printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["rho"] = 0.6;
+    config["instance"]["outputFile"] = "//Wyniki//TsFinal.csv";
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["instance"]["outputFile"] = "//Wyniki//AoFinal.csv";
     test(antColony);i++;
     printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["rho"] = 0.4;
-    test(antColony);i++;
+    config["instance"]["outputFile"] = "//Wyniki//AnFinal.csv";
+    test(simulatedAnealing);i++;
     printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["rho"] = 0.2;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-
-    config["algorithms"]["alfa"] = 1;
-    config["instance"]["outputFile"] = "//Wyniki//AoAB.csv";
-    config["algorithms"]["beta"] = 3;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["alfa"] = 2;
-    config["algorithms"]["beta"] = 3;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["alfa"] = 3;
-    config["algorithms"]["beta"] = 3;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["alfa"] = 3;
-    config["algorithms"]["beta"] = 2;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["alfa"] = 3;
-    config["algorithms"]["beta"] = 1;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
+    
 }
 int main(){
     ifstream file("configP2.json");

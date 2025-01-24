@@ -3,8 +3,9 @@
       "showProgress": true,   "_comment1": "Pokazuje ile instancji już wykonano. Nie powinno wpływać na czas wykonania algorytmów",
       "printToConsol": true,  "_comment2": "Możliwość schowania wyświetlenia wyników w konsoli. Do testów żeby pasek postępu był bardziej widoczny", 
       "iterations": 1,        "_comment3": "Ilość iteracji wybranego algorytmu",
+      "iterations": 1,        "_comment3": "Ilość iteracji wybranego algorytmu",
       "maxDisplaySize": 16,   "_comment4": "Maksymalna szerokość ścieżki do wyświetlenia",
-      "time": 0.5,             "_comment5": "Ograniczenie czasowe algorytmu (Podane w minutach)",
+      "time": 5,             "_comment5": "Ograniczenie czasowe algorytmu (Podane w minutach)",
       "barWidth": 20,         "_comment6": "Szerokość paska postępu",
       "test": false,           "_comment7": "Jeżeli true włączona zostaje procedura badawcza",
       "bigGraph": 13,         "_comment8": "Rozmiar największego grafu w procedurze badawczej",
@@ -24,7 +25,7 @@
         "simulatedAnealing": "simulatedAnealing",
         "antColony": "antColony",
         "startPath" : "nn",
-        "newPathMethod": "swap",
+        "newPathMethod": "insert",
         "searchEnv": "all",
 
         "maxMultiplier" : 0.05, 
@@ -33,8 +34,8 @@
 
         "minTemp": 0.0001,
         "alpha": 0.999,
-        "currTemp": 10000,
-        "epochLen": 40,
+        "currTemp": 5000,
+        "epochLen": 60,
         
         "rho": 0.5,
         "alfa": 1,

@@ -170,15 +170,62 @@
       \subsection{Podsumowanie}
     \subsection{Simulated anealing}
       \subsection{Swap lub Insert}
-        (4*ASYM + 4*ASM)*2 * 5 
+        W moim algorytmie zaimplementowałem dwie różne metody przeszukiwania sąsiedztwa.
+        \begin{enumerate}
+          \item Swap - Wybieram dwa wierzchołki i zamienia je ze sobą. W mojej implementacji
+          sprawdzam wszystkie unikalne możliwości więc generuję n*(n-1)/n sąsiadów.
+          \item Insert - wybieram wierzchołek i miejsce w tablicy. Wierzchołek kopiuje a następnie 
+          usuwam z tablicy. Na koniec kopię wierzchołka wstawiam w wybrane miejsce. W mojej 
+          implementacji obie wartości losuję. Wykonuję n*(n-1)/n losowań.
+        \end{enumerate}
+        \textbf{Hipoteza: } W tabu search metoda przeszukiwania insert powinna być znacznie lepsza
+        niż swap.
+        \textbf{Badania: } Wykonuję badania dla każdej z 8 instancji. Żeby otrzymać dobrą próbkę 
+        badanie powtarzam cztero krotnie dla każdej instancji. Więc wykonuje (4*ASYM + 4*ASM)*4 * 2 = 64
+        badań. 
+
+        \textbf{Wnioski: } 
       \subsection{NN lub random}
-        (4*ASYM + 4*ASM)*2 * 5 
+        W moim algorytmie zaimplementowałem dwie różne metody tworzenia pierwszego rozwiązania.
+        \begin{enumerate}
+          \item Losowa - Pierwsze rozwiązanie jest zupełnie losowe. Najpierw tworzę wektor z liczbami
+          od 0 do n - 1. Następnie na tym wektorze używam funkcji shuffle. 
+          \item Nearest neighbour - Korzystam z wcześniej zaimplementowanego algorytmu NN. 
+        \end{enumerate}
+        \textbf{Hipoteza: } Wyniki dla metody losowej będą znacznie gorsze (Większy błąd wzgledny) od NN.
+        Ale jest też niewielka szansa na wyniki będące bliżej optymalnego rozwiązania. Jednakże wykonanie
+        wielu pomiarów powinno wykluczyć znaczne odstępstwa.\linebreak
+        \textbf{Badania: } Podobnie jak w poprzednim przypadku wykonuje badania dla każdej z 8 instancji
+        po 4 powtórzenia. Więc znowu wykonuje (4*ASYM + 4*ASM)*4 * 2 = 64\linebreak
+
+        \textbf{Wnioski: } 
       \subsection{Długość epoki}
-        (4*ASYM + 4*ASM)*5 * 4 
+
+        \textbf{Hipoteza: }
+
+        \textbf{Badania: } Dla każdej instancji testuje wszystkie 5 wartości. 
+        Żeby otrzymać dobrą próbkę badanie powtarzam cztero krotnie dla każdej 
+        instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak 
+
+        \textbf{Wnioski: } 
       \subsection{Wielkość alfa}
-        (4*ASYM + 4*ASM)*5 * 4 
+
+        \textbf{Hipoteza: }
+
+        \textbf{Badania: } Dla każdej instancji testuje wszystkie 5 wartości. 
+        Żeby otrzymać dobrą próbkę badanie powtarzam cztero krotnie dla każdej 
+        instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak
+
+        \textbf{Wnioski: } 
       \subsection{Temperatura startowa}
-        (4*ASYM + 4*ASM)*5 * 4 1
+
+        \textbf{Hipoteza: } Temperatura startowa powinna być stosunkowo wysoka
+        więc wraz ze wzrostem wyniki powinny się poprawiać.\linebreak
+        \textbf{Badania: } Dla każdej instancji testuje wszystkie 5 wartości. 
+        Żeby otrzymać dobrą próbkę badanie powtarzam cztero krotnie dla każdej 
+        instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak
+        
+        \textbf{Wnioski: } 
       \subsection{Podsumowanie}ok 8,5h
 
     \subsection{Algorytm mrówkowy}
@@ -224,7 +271,7 @@
         sprawiać że mrówki będą bardziej zachłannne\linebreak
         \textbf{Badania: } Dla każdej instancji testuje wszystkie 5 wartości. 
         Żeby otrzymać dobrą próbkę badanie powtarzam cztero krotnie dla każdej 
-        instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*4 * 4 = 128 badań.\linebreak
+        instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak
 
         \textbf{Wnioski: } 
       \subsection{Badanie wpływu stosunku alfy do bety}
@@ -241,7 +288,7 @@
         $\beta$ powinien być najlepszy. \linebreak
         \textbf{Badania: } Dla każdej instancji testuje wszystkie 5 wartości. 
         Żeby otrzymać dobrą próbkę badanie powtarzam cztero krotnie dla każdej 
-        instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*4 * 4 = 128 badań.\linebreak
+        instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak
         
         \textbf{Wnioski: } 
       \subsection{Podsumowanie}
