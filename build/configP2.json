@@ -2,7 +2,7 @@
     "settings": {
       "showProgress": true,   "_comment1": "Pokazuje ile instancji już wykonano. Nie powinno wpływać na czas wykonania algorytmów",
       "printToConsol": true,  "_comment2": "Możliwość schowania wyświetlenia wyników w konsoli. Do testów żeby pasek postępu był bardziej widoczny", 
-      "iterations": 4,        "_comment3": "Ilość iteracji wybranego algorytmu",
+      "iterations": 1,        "_comment3": "Ilość iteracji wybranego algorytmu",
       "maxDisplaySize": 16,   "_comment4": "Maksymalna szerokość ścieżki do wyświetlenia",
       "time": 0.5,             "_comment5": "Ograniczenie czasowe algorytmu (Podane w minutach)",
       "barWidth": 20,         "_comment6": "Szerokość paska postępu",
@@ -13,10 +13,10 @@
     "csvTitleString": "Optymalny wynik,Otrzymany wynik,Czas wykonania,Blad wzgledny (procentowo)",
     "instance": {
         "algorithName": "antColony",          "_comment1":"Nazwa wybranego algorytmu.Musi odpowiadać jednej z nazw w sekcji algorithms",
-        "inputFile": "\\Dane\\ATSP\\ftv33.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
+        "inputFile": "\\Dane\\TSP\\pr264.txt",      "_comment2":"Relatywna scieżka do pliku z danymi.Plik ten powinien zawierać macierz sąsiedztwa",
         "outputFile": "\\Wyniki\\test.csv", "_comment3":"Nazwa pliku wyjściowego",
-        "size": 33,                             "_comment4":"Rozmiar macierzy",
-        "optimalRes": 1211,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
+        "size": 264,                             "_comment4":"Rozmiar macierzy",
+        "optimalRes": 49135,                      "_comment5":"Długość optymalnej scieżki. Powinna być różna od 0",
         "optimalPath": "" ,                     "_comment6":"Optymalna scieżka. Wyświetlana w konsoli dla porównania ze znalezioną"
     },
     "algorithms": {
@@ -29,7 +29,7 @@
 
         "maxMultiplier" : 0.05, 
         "lenMultiplier" : 0.3,
-        "improvementCount" : 150,
+        "improvementCount" : 1000,
 
         "minTemp": 0.0001,
         "alpha": 0.999,
@@ -39,7 +39,7 @@
         "rho": 0.5,
         "alfa": 1,
         "beta": 3,
-        "updatePheromones": "QAS",
-        "showProgress": false,                     "_comment2":"Pokazuje jaki procent danej metody wykonano. Będzie wpływać na czas wykonania"
+        "updatePheromones": "CAS",
+        "showProgress": true,                     "_comment2":"Pokazuje jaki procent danej metody wykonano. Będzie wpływać na czas wykonania"
     }
   }

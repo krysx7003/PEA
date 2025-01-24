@@ -369,6 +369,7 @@ int antColony(){
     string updatePheromones = config["algorithms"]["updatePheromones"];
     int improvementCount = config["algorithms"]["improvementCount"];
     long long estimatedCount = maxtime,fraction = 0;
+    int noImprovement = 0;
     if(showProgress){
         fraction = 1000000000;
         printBar(0,"\nAlgorytm mrowkowy\t");
@@ -387,8 +388,9 @@ int antColony(){
     float cnn = (float)gSize/(bestVal/100);
     pheromoneLevels.resize(gSize, vector<float>(gSize,cnn));
     while(currTime.count()<maxtime){
+        vector<int> currPath;int currVal;
         for(int i=0;i<antsNumber;i++){
-            vector<int> currPath;int currVal;
+            currPath.clear();currVal = INT_MAX;
             int currVert = rand()%gSize;
             currPath.push_back(currVert);
             while(currPath.size()<gSize){
@@ -410,10 +412,14 @@ int antColony(){
                     pheromoneLevels[currPath[j]][currPath[(j+1)%gSize]] += (float)gSize/(currVal/100); 
                 }  
             }
-            if(currVal<bestVal){
-                bestVal = currVal;
-                bestPath = currPath;
-            }
+        }
+        if(currVal<bestVal){
+            bestPath = currPath;bestVal = currVal;
+        }else{
+            noImprovement++;
+        }
+        if(noImprovement<improvementCount){
+            break;
         }
         for(int i=0;i<gSize;i++){
             for(int j=0;j<gSize;j++){
@@ -608,17 +614,16 @@ void setupTests(){
     // test(tabuSearch);i++;
     // printBar((double)i/iterations,"Caly program \t\t");
     
-    // config["algorithms"]["updatePheromones"] = "QAS";
-    // config["instance"]["outputFile"] = "//Wyniki//AoQAS.csv";
-    // test(antColony);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["updatePheromones"] = "CAS";
-    // config["instance"]["outputFile"] = "//Wyniki//AoCAS.csv";
-    // test(antColony);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["updatePheromones"] = "QAS";
+    config["algorithms"]["updatePheromones"] = "QAS";
+    config["instance"]["outputFile"] = "//Wyniki//AoQAS.csv";
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["updatePheromones"] = "CAS";
+    config["instance"]["outputFile"] = "//Wyniki//AoCAS.csv";
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["updatePheromones"] = "QAS";
     
-    //Nie zrobione
     config["algorithms"]["rho"] = 0.8;
     config["instance"]["outputFile"] = "//Wyniki//AoRho.csv";
     test(antColony);i++;
@@ -678,7 +683,6 @@ int main(){
         {config["algorithms"]["simulatedAnealing"],simulatedAnealing},
         {config["algorithms"]["antColony"],antColony}
     };
-    setupTests();
      //W mapie znajduej odpowiednią funkcje i ją uruchamiam
     if(funcMap.find(funcName)!=funcMap.end()){
         write_header(funcName);
@@ -711,6 +715,9 @@ int main(){
 
     return 0;
 }
-//schemat zmiany temp
-//czas
-//kryterium aspiracji
+//Badania do wykonania
+//Błąd od rozmiaru
+//Czas od rozmiaru 
+//Wszystko na małych
+//Dla mrówków
+//Instancje ~500 ~700 
