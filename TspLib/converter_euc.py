@@ -35,8 +35,8 @@ def save_matrix_to_file(matrix, output_filename):
     np.savetxt(output_filename, matrix, fmt='%d')
 
 def main():
-    input_filename = "D:\\Studia\\PEA\\PEA\\TspLib\\SYM\\lin318.tsp"  # Plik wejściowy w formacie TSP
-    output_filename = "lin318.txt"  # Plik wyjściowy
+    input_filename = "D:\\Studia\\PEA\\PEA\\TspLib\\SYM\\pr439.tsp"  # Plik wejściowy w formacie TSP
+    output_filename = "D:\\Studia\\PEA\\PEA\\build\\Dane\\TSP\\pr439.txt"
     nodes = read_tsp_file(input_filename)
     adjacency_matrix = generate_adjacency_matrix(nodes)
     save_matrix_to_file(adjacency_matrix, output_filename)

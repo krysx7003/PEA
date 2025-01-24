@@ -96,17 +96,17 @@
         \textbf{Badania: } Wykonuję badania dla każdej z 8 instancji. Żeby otrzymać dobrą próbkę 
         badanie powtarzam cztero krotnie dla każdej instancji. Więc wykonuje (4*ASYM + 4*ASM)*4 * 2 = 64
         badań.
-        \input{src/tables/TsInsert.tex}
-        \begin{figure}[ht]
-          \centering
-          \includegraphics[width=\textwidth]{src/plots/symtest.png}
-          \caption{Wyniki badań dla macierzy symetrycznych}
-          \label{fig:symNeighg}
-        \end{figure}
+        \input{src/tables/TsNeighMet.tex}
         \FloatBarrier
         \begin{figure}[ht]
           \centering
-          \includegraphics[width=\textwidth]{src/plots/asymtest.png}
+          \includegraphics[width=\textwidth]{src/plots/symTsNeighMet.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symNeighg}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymTsNeighMet.png}
           \caption{Wyniki badań dla macierzy asymetrycznych}
           \label{fig:asymNeighg}
         \end{figure}
@@ -125,18 +125,19 @@
         wielu pomiarów powinno wykluczyć znaczne odstępstwa.\linebreak
         \textbf{Badania: } Podobnie jak w poprzednim przypadku wykonuje badania dla każdej z 8 instancji
         po 4 powtórzenia. Więc znowu wykonuje (4*ASYM + 4*ASM)*4 * 2 = 64\linebreak
-        \begin{figure}[ht]
-          \centering
-          \includegraphics[width=\textwidth]{src/plots/symtest.png}
-          \caption{Wyniki badań dla macierzy symetrycznych}
-          \label{fig:symFirst}
-        \end{figure}
+        \input{src/tables/TsStartVal.tex}
         \FloatBarrier
         \begin{figure}[ht]
           \centering
-          \includegraphics[width=\textwidth]{src/plots/asymtest.png}
+          \includegraphics[width=\textwidth]{src/plots/symTsStartVal.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symStartVal}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symTsStartVal.png}
           \caption{Wyniki badań dla macierzy asymetrycznych}
-          \label{fig:asymFirst}
+          \label{fig:asymStartVal}
         \end{figure}
         \FloatBarrier
         \textbf{Wnioski: } 
@@ -149,7 +150,21 @@
         \textbf{Badania: } Dla każdej instancji testuje wszystkie 5 wartości. 
         Żeby otrzymać dobrą próbkę badanie powtarzam cztero krotnie dla każdej 
         instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak
-
+        \input{src/tables/TsCount.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symTsCount.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symCount}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymTsCount.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymCount}
+        \end{figure}
+        \FloatBarrier
         \textbf{Wnioski: } 
 
       \subsection{Badanie wpływu długości tablicy tabu} 
@@ -164,11 +179,25 @@
         testuje wszystkie 5 wartości. Żeby otrzymać dobrą próbkę badanie 
         powtarzam cztero krotnie dla każdej instancji. Dla tego wykonuję 
         (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak
-
+        \input{src/tables/TsTabuLen.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symTsTabuLen.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symTabuLen}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymTsTabuLen.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymTabuLen}
+        \end{figure}
+        \FloatBarrier
         \textbf{Wnioski: } 
 
       \subsection{Podsumowanie}
-    \subsection{Simulated anealing}
+    \section{Simulated anealing}
       \subsection{Swap lub Insert}
         W moim algorytmie zaimplementowałem dwie różne metody przeszukiwania sąsiedztwa.
         \begin{enumerate}
@@ -228,7 +257,7 @@
         \textbf{Wnioski: } 
       \subsection{Podsumowanie}ok 8,5h
 
-    \subsection{Algorytm mrówkowy}
+    \section{Algorytm mrówkowy}
       \subsection{Opis Algorytmu}
         Algorytm mrówkwy jest algorytmem metahurystycznym który modeluje zachowanie mrówek.
         Mrówki w wyruszają z mrowiska w poszukiwaniu jedzenia w losowych kierunkach. Po 

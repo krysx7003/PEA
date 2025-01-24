@@ -33,8 +33,8 @@ def save_adjacency_matrix(matrix, output_path):
             file.write("  ".join(map(str, row)) + "\n")
 
 # Przykład użycia
-input_file = "D:\\Studia\\PEA\\PEA\\TspLib\\ASYM\\kro124p.atsp"
-output_file = "D:\\Studia\\PEA\\PEA\\build\\Dane\\ATSP\\kro124p.txt"
+input_file = "D:\\Studia\\PEA\\PEA\\TspLib\\ASYM\\rbg443.atsp"
+output_file = "D:\\Studia\\PEA\\PEA\\build\\Dane\\ATSP\\rbg443.txt"
 
 adjacency_matrix = read_atsp_to_adjacency_matrix(input_file)
 save_adjacency_matrix(adjacency_matrix, output_file)

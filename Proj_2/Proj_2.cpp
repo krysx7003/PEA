@@ -527,13 +527,13 @@ void test(function<int()> testFunc){
     string asymFiles[] = {"ftv33.txt","ftv64.txt","kro100p.txt","ftv170.txt"}; 
     int asymSizes[] = {33,64,100,170};
     int asymOptValues[] = {1286,1839,36230,2755};
-    string symFiles[] = {"rat99.txt","pr152.txt","ts225.txt","pr264.txt"};
-    int symSizes[] = {99,152,225,264};
-    int symOptValues[] = {1211,73682,126643,49135};
+    string symFiles[] = {"rat99.txt","pr152.txt","ts225.txt","pr264.txt","lin318.txt","pr439.txt"};
+    int symSizes[] = {99,152,225,264,318,439,318,439};
+    int symOptValues[] = {1211,73682,126643,49135,42029,107217};
     int iterations = config["settings"]["iterations"]; 
     cout<<"\n"; 
-    for(int i=0;i<4;i++){
-        printBar((double)i/4,"Symetryczne \t\t");
+    for(int i=0;i<6;i++){
+        printBar((double)i/6,"Symetryczne \t\t");
         string fileName ="\\Dane\\TSP\\"+symFiles[i];
         config["instance"]["inputFile"] = fileName;
         write_header("");
@@ -545,7 +545,7 @@ void test(function<int()> testFunc){
         }
     }
     for(int i=0;i<4;i++){
-        printBar((double)i/4,"Asymetryczne \t\t");
+        printBar((double)i/6,"Asymetryczne \t\t");
         string fileName ="\\Dane\\ATSP\\"+asymFiles[i];
         config["instance"]["inputFile"] = fileName;
         write_header("");
@@ -613,31 +613,54 @@ void setupTests(){
     // config["algorithms"]["improvementCount"] = 125;
     // test(tabuSearch);i++;
     // printBar((double)i/iterations,"Caly program \t\t");
-    
+
+    printBar((double)i/iterations,"Caly program \t\t");
     config["algorithms"]["updatePheromones"] = "QAS";
-    config["instance"]["outputFile"] = "//Wyniki//AoQAS.csv";
+    config["instance"]["outputFile"] = "//Wyniki//AoFeroMet.csv";
     test(antColony);i++;
     printBar((double)i/iterations,"Caly program \t\t");
     config["algorithms"]["updatePheromones"] = "CAS";
-    config["instance"]["outputFile"] = "//Wyniki//AoCAS.csv";
     test(antColony);i++;
     printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["updatePheromones"] = "QAS";
     
-    config["algorithms"]["rho"] = 0.8;
+    config["algorithms"]["rho"] = 0.1;
     config["instance"]["outputFile"] = "//Wyniki//AoRho.csv";
     test(antColony);i++;
     printBar((double)i/iterations,"Caly program \t\t");
-    config["instance"]["outputFile"] = "//Wyniki//TsFinal.csv";
-    test(tabuSearch);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-    config["instance"]["outputFile"] = "//Wyniki//AoFinal.csv";
+    config["algorithms"]["rho"] = 0.2;
     test(antColony);i++;
     printBar((double)i/iterations,"Caly program \t\t");
-    config["instance"]["outputFile"] = "//Wyniki//AnFinal.csv";
-    test(simulatedAnealing);i++;
+    config["algorithms"]["rho"] = 0.3;
+    test(antColony);i++;
     printBar((double)i/iterations,"Caly program \t\t");
-    
+    config["algorithms"]["rho"] = 0.4;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["rho"] = 0.5;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+
+    config["instance"]["outputFile"] = "//Wyniki//AoAB.csv";
+    config["algorithms"]["alfa"] = 1;
+    config["algorithms"]["beta"] = 3;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["alfa"] = 2;
+    config["algorithms"]["beta"] = 3;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["alfa"] = 3;
+    config["algorithms"]["beta"] = 3;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["alfa"] = 3;
+    config["algorithms"]["beta"] = 2;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["algorithms"]["alfa"] = 3;
+    config["algorithms"]["beta"] = 1;
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
 }
 int main(){
     ifstream file("configP2.json");
@@ -662,6 +685,7 @@ int main(){
         {config["algorithms"]["simulatedAnealing"],simulatedAnealing},
         {config["algorithms"]["antColony"],antColony}
     };
+    setupTests();
      //W mapie znajduej odpowiednią funkcje i ją uruchamiam
     if(funcMap.find(funcName)!=funcMap.end()){
         write_header(funcName);
