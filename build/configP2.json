@@ -3,7 +3,6 @@
       "showProgress": true,   "_comment1": "Pokazuje ile instancji już wykonano. Nie powinno wpływać na czas wykonania algorytmów",
       "printToConsol": true,  "_comment2": "Możliwość schowania wyświetlenia wyników w konsoli. Do testów żeby pasek postępu był bardziej widoczny", 
       "iterations": 1,        "_comment3": "Ilość iteracji wybranego algorytmu",
-      "iterations": 1,        "_comment3": "Ilość iteracji wybranego algorytmu",
       "maxDisplaySize": 16,   "_comment4": "Maksymalna szerokość ścieżki do wyświetlenia",
       "time": 5,             "_comment5": "Ograniczenie czasowe algorytmu (Podane w minutach)",
       "barWidth": 20,         "_comment6": "Szerokość paska postępu",
