@@ -553,107 +553,19 @@ void test(function<int()> testFunc){
 }
 void setupTests(){
     width = config["settings"]["barWidth"];
-    int i = 0,iterations = 25;
+    int i = 0,iterations = 3;
     
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["startPath"] = "random";
-    // config["instance"]["outputFile"] = "//Wyniki//TsRandom.csv";
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["startPath"] = "nn";
-    // config["instance"]["outputFile"] = "//Wyniki//TsNN.csv";
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["startPath"] = "nn";
-
-    // config["algorithms"]["newPathMethod"] = "swap";
-    // config["instance"]["outputFile"] = "//Wyniki//TsSwap.csv";
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["newPathMethod"] = "insert";
-    // config["instance"]["outputFile"] = "//Wyniki//TsInsert.csv";
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["newPathMethod"] = "insert";
-    // config["algorithms"]["lenMultiplier"] = 0.5;
-    // config["instance"]["outputFile"] = "//Wyniki//TsTabuLen.csv";
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["lenMultiplier"] = 0.4;
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["lenMultiplier"] = 0.3;
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["lenMultiplier"] = 0.2;
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["lenMultiplier"] = 0.1;
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["improvementCount"] = 25;
-    // config["instance"]["outputFile"] = "//Wyniki//TsCount.csv";
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["improvementCount"] = 50;
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["improvementCount"] = 75;
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["improvementCount"] = 100;
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["improvementCount"] = 125;
-    // test(tabuSearch);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["instance"]["outputFile"] = "//Wyniki//TsFinal.csv";
+    test(tabuSearch);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["instance"]["outputFile"] = "//Wyniki//AoFinal.csv";
+    test(antColony);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
+    config["instance"]["outputFile"] = "//Wyniki//AnFinal.csv";
+    test(simulatedAnealing);i++;
+    printBar((double)i/iterations,"Caly program \t\t");
     
-    // config["algorithms"]["updatePheromones"] = "QAS";
-    // config["instance"]["outputFile"] = "//Wyniki//AoQAS.csv";
-    // test(antColony);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["updatePheromones"] = "CAS";
-    // config["instance"]["outputFile"] = "//Wyniki//AoCAS.csv";
-    // test(antColony);i++;
-    // printBar((double)i/iterations,"Caly program \t\t");
-    // config["algorithms"]["updatePheromones"] = "QAS";
-    
-    //Nie zrobione
-    config["algorithms"]["rho"] = 0.8;
-    config["instance"]["outputFile"] = "//Wyniki//AoRho.csv";
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["rho"] = 0.6;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["rho"] = 0.4;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["rho"] = 0.2;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-
-    config["algorithms"]["alfa"] = 1;
-    config["instance"]["outputFile"] = "//Wyniki//AoAB.csv";
-    config["algorithms"]["beta"] = 3;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["alfa"] = 2;
-    config["algorithms"]["beta"] = 3;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["alfa"] = 3;
-    config["algorithms"]["beta"] = 3;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["alfa"] = 3;
-    config["algorithms"]["beta"] = 2;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
-    config["algorithms"]["alfa"] = 3;
-    config["algorithms"]["beta"] = 1;
-    test(antColony);i++;
-    printBar((double)i/iterations,"Caly program \t\t");
 }
 int main(){
     ifstream file("configP2.json");
