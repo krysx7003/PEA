@@ -48,6 +48,7 @@
         \label{fig:procTabu}
       \end{figure}
       \FloatBarrier
+      
     \section{Instancje użyte w badaniach}
       Do badań użyłem macierzy z \hyperref[src:TspLib]{TspLib[~\ref*{src:TspLib}]} \linebreak
       \textbf{Macierze symetryczne} - rat99.tsp,pr152.tsp,ts225.tsp oraz pr264.tsp \linebreak
@@ -96,23 +97,25 @@
         \textbf{Badania: } Wykonuję badania dla każdej z 8 instancji. Żeby otrzymać dobrą próbkę 
         badanie powtarzam cztero krotnie dla każdej instancji. Więc wykonuje (4*ASYM + 4*ASM)*4 * 2 = 64
         badań.
+        \FloatBarrier
         \input{src/tables/TsNeighMet.tex}
         \FloatBarrier
         \begin{figure}[ht]
           \centering
           \includegraphics[width=\textwidth]{src/plots/symTsNeighMet.png}
-          \caption{Wyniki badań dla macierzy symetrycznych}
+          \caption{Wyniki badań dla macierzy symetrycznych[\%]}
           \label{fig:symNeighg}
         \end{figure}
         \begin{figure}[ht]
           \centering
           \includegraphics[width=\textwidth]{src/plots/asymTsNeighMet.png}
-          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \caption{Wyniki badań dla macierzy asymetrycznych[\%]}
           \label{fig:asymNeighg}
         \end{figure}
         \FloatBarrier
-        \textbf{Wnioski: }
-
+        * Niebieskie punkty to wyniki dla Swap a zielone dla Insert
+        \textbf{Wnioski: } Wbrew założeniom wyniki są bardzo zbliżone. (\hyperref[tab:error_TsNeighMet]{Tabela 2})
+        Różnica nie przekracza 2 punktów procentowych.
       \subsection{Badanie wpływu metody tworzenia pierwszego rozwiązania}
         W moim algorytmie zaimplementowałem dwie różne metody tworzenia pierwszego rozwiązania.
         \begin{enumerate}
@@ -125,6 +128,7 @@
         wielu pomiarów powinno wykluczyć znaczne odstępstwa.\linebreak
         \textbf{Badania: } Podobnie jak w poprzednim przypadku wykonuje badania dla każdej z 8 instancji
         po 4 powtórzenia. Więc znowu wykonuje (4*ASYM + 4*ASM)*4 * 2 = 64\linebreak
+        \FloatBarrier
         \input{src/tables/TsStartVal.tex}
         \FloatBarrier
         \begin{figure}[ht]
@@ -140,8 +144,9 @@
           \label{fig:asymStartVal}
         \end{figure}
         \FloatBarrier
-        \textbf{Wnioski: } 
-
+        * Niebieskie punkty to wyniki dla NN a zielone dla random.
+        \textbf{Wnioski: } Wyniki zgadzają się z moją hipotezą. Było to do przewidzenia
+        Jako że random zaczyna w zupełnie losowym punkcie jego rozwiązania będą gorsze.
       \subsection{Badanie wpływu ilości iteracji bez zmian}
         W mojej implementacji przekroczenie pewnej ilości bez zminay wyniku
         służy do dywersyfikacji. Do testów wybrałem wartości 25,50,75,100,125.\linebreak
@@ -150,6 +155,7 @@
         \textbf{Badania: } Dla każdej instancji testuje wszystkie 5 wartości. 
         Żeby otrzymać dobrą próbkę badanie powtarzam cztero krotnie dla każdej 
         instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak
+        \FloatBarrier
         \input{src/tables/TsCount.tex}
         \FloatBarrier
         \begin{figure}[ht]
@@ -165,8 +171,10 @@
           \label{fig:asymCount}
         \end{figure}
         \FloatBarrier
-        \textbf{Wnioski: } 
-
+        \textbf{Wnioski: } Wyniki są bardzo zbliżone. Różnica dla instancji
+        symetrycznych nie jest większa niż 1 punkt procentowy. Dla asymetrycznych
+        widać nieco większą różnorodność (ok 2 punkty procentowe). W obu przypadkach
+        największy błąd jest dla dużych macierzy
       \subsection{Badanie wpływu długości tablicy tabu} 
         W mojej implementacji elementy pozostają w tablicy tak długo aż 
         ilość elementów w tej tablicy nie przekroczy pewnej liczby. Długość
@@ -179,6 +187,7 @@
         testuje wszystkie 5 wartości. Żeby otrzymać dobrą próbkę badanie 
         powtarzam cztero krotnie dla każdej instancji. Dla tego wykonuję 
         (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak
+        \FloatBarrier
         \input{src/tables/TsTabuLen.tex}
         \FloatBarrier
         \begin{figure}[ht]
@@ -194,11 +203,15 @@
           \label{fig:asymTabuLen}
         \end{figure}
         \FloatBarrier
-        \textbf{Wnioski: } 
-
+        \textbf{Wnioski: } Wyniki są bardzo zbliżone zarówno w tym badaniu jak i 
+        w poprzednim. Tak samo jak w poprzednim badaniu wyniki dla macierzy 
+        asymetrycznych wykazują znacznie większe zróżnicowanie
       \subsection{Podsumowanie}
+        W badaniach 3.4 i 3.5 używałem NN jako metodę tworzenia pierwszego rozwiązania.
+        Możliwe że wyniki dla tych instancji były na tyle dobre że algorytm utykał w
+        optimum lokalnym.
     \section{Simulated anealing}
-      \subsection{Swap lub Insert}
+      \subsection{Badanie wpływu metody przeszukiwania sąsiedztwa}
         W moim algorytmie zaimplementowałem dwie różne metody przeszukiwania sąsiedztwa.
         \begin{enumerate}
           \item Swap - Wybieram dwa wierzchołki i zamienia je ze sobą. W mojej implementacji
@@ -208,13 +221,45 @@
           implementacji obie wartości losuję. Wykonuję n*(n-1)/n losowań.
         \end{enumerate}
         \textbf{Hipoteza: } W tabu search metoda przeszukiwania insert powinna być znacznie lepsza
-        niż swap.
+        niż swap.\linebreak
         \textbf{Badania: } Wykonuję badania dla każdej z 8 instancji. Żeby otrzymać dobrą próbkę 
         badanie powtarzam cztero krotnie dla każdej instancji. Więc wykonuje (4*ASYM + 4*ASM)*4 * 2 = 64
-        badań. 
-
-        \textbf{Wnioski: } 
-      \subsection{NN lub random}
+        badań. \linebreak
+        \FloatBarrier
+        \input{src/tables/AnNeigMet.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAnNeigMet.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symAnNeig}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAnNeigMet.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymAnNeig}
+        \end{figure}
+        \FloatBarrier
+        \input{src/tables/AnNeigMetTime.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAnNeigMetTime.png}
+          \caption{Wyniki badań czasu  dla macierzy symetrycznych}
+          \label{fig:symAnNeigT}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAnNeigMetTime.png}
+          \caption{Wyniki badań czasu  dla macierzy asymetrycznych}
+          \label{fig:asymAnNeigT}
+        \end{figure}
+        \FloatBarrier
+        * Niebieskie punkty to wyniki dla Swap a zielone dla Insert \linebreak
+        \textbf{Wnioski: } W tym badaniu błędy dla Random i NN były bardzo zbliżone. Czas znalezienia 
+        wyniku dla obu metod jest bardzo zbliżony (różnica ok 0.01 sekundy).
+      \subsection{Badanie wpływu metody tworzenia pierwszego rozwiązania}
         W moim algorytmie zaimplementowałem dwie różne metody tworzenia pierwszego rozwiązania.
         \begin{enumerate}
           \item Losowa - Pierwsze rozwiązanie jest zupełnie losowe. Najpierw tworzę wektor z liczbami
@@ -226,37 +271,173 @@
         wielu pomiarów powinno wykluczyć znaczne odstępstwa.\linebreak
         \textbf{Badania: } Podobnie jak w poprzednim przypadku wykonuje badania dla każdej z 8 instancji
         po 4 powtórzenia. Więc znowu wykonuje (4*ASYM + 4*ASM)*4 * 2 = 64\linebreak
-
-        \textbf{Wnioski: } 
-      \subsection{Długość epoki}
-
-        \textbf{Hipoteza: }
-
+        \FloatBarrier
+        \input{src/tables/AnStartVal.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAnStartVal.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symAnStartVal}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAnStartVal.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymAnStartVal}
+        \end{figure}
+        \FloatBarrier
+        \input{src/tables/AnStartValTime.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAnStartValTime.png}
+          \caption{Wyniki badań czasu  dla macierzy symetrycznych}
+          \label{fig:symStartValT}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAnStartValTime.png}
+          \caption{Wyniki badań czasu  dla macierzy asymetrycznych}
+          \label{fig:asymStartValT}
+        \end{figure}
+        \FloatBarrier
+        * Niebieskie punkty to wyniki dla Swap a zielone dla Insert\linebreak
+        \textbf{Wnioski: } Podobnie jak w badaniu 3.2 wyniki dla obu metod były bardzo
+        zbliżone.Czas znalezienia wyniku dla obu metod jest bardzo zbliżony (różnica ok 0.01 sekundy).
+      \subsection{Wpływ długości epoki}
+        W mojej implementacji długość epoki jest wczytywana z pliku config. 
+        Podczas implementacji wartości dla których dostawałem najlepsze
+        wyniki były zbliżone do 50. Więc do badań używam wartości 
+        20,40,60,80,100.\linebreak
+        \textbf{Hipoteza: } Wraz ze wzrostem długości epoki jakość rozwiązania będzie 
+        rosła.\linebreak 
         \textbf{Badania: } Dla każdej instancji testuje wszystkie 5 wartości. 
         Żeby otrzymać dobrą próbkę badanie powtarzam cztero krotnie dla każdej 
         instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak 
-
-        \textbf{Wnioski: } 
+        \FloatBarrier
+        \input{src/tables/AnEpoch.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAnEpoch.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symEpoch}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAnEpoch.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymEpoch}
+        \end{figure}
+        \FloatBarrier
+        \input{src/tables/AnEpochTime.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAnEpochTime.png}
+          \caption{Wyniki badań czasu  dla macierzy symetrycznych}
+          \label{fig:symEpochT}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAnEpochTime.png}
+          \caption{Wyniki badań czasu dla macierzy asymetrycznych}
+          \label{fig:asymEpochT}
+        \end{figure}
+        \FloatBarrier
+        \textbf{Wnioski: } Z badania wynikia że czas rośnie liniowo w raz ze wzrostem 
+        długości epok. Dla wszyskich długości epok różnica w błędzie była niewielka.
+        Jednakże otrzymany błąd był bardzo duży ok 800\%
       \subsection{Wielkość alfa}
-
-        \textbf{Hipoteza: }
-
+        W mojej implementacji wartość alfa jest wczytywana z pliku config. Alfa powinna
+        być w zakresie 0 do 1. Więc do testów wybrałem wartości 0.19,0.39,0.59,0.79,0.99. \linebreak
+        \textbf{Hipoteza: } Wraz ze wzrostem wartości alfy wyniki powinny się poprawiać.
+        Alfa = 0.99 powinna dawać najlepsze wyniki.\linebreak
         \textbf{Badania: } Dla każdej instancji testuje wszystkie 5 wartości. 
         Żeby otrzymać dobrą próbkę badanie powtarzam cztero krotnie dla każdej 
         instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak
-
-        \textbf{Wnioski: } 
+        \FloatBarrier
+        \input{src/tables/AnAlpha.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAnAlpha.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symAlpha}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAnAlpha.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymAlphan}
+        \end{figure}
+        \FloatBarrier
+        \input{src/tables/AnAlphaTime.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAnAlphaTime.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symAlphaT}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAnAlphaTime.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymAlphaT}
+        \end{figure}
+        \FloatBarrier 
+        \textbf{Wnioski: } Różnica błędów dla wartości alfy była nieznacznia ok 10 punktów procentowych.
+        Czas znalezienia rozwiązań znacznie poprawiał się dla małych wartości alfa. Czas potrzebny na
+        znalezienie wyniku rośnie wykładniczo kiedy alfa zbliża się do 1.
       \subsection{Temperatura startowa}
-
+        W mojej implementacji temperatura startowa jest wczytywana z pliku config.
+        Podczas implementacji temperatura startowa zbliżona do 5000 dawała najlepsze 
+        wyniki. Więc do badań wybrałem wartości 1000,2000,3000,4000,5000.\linebreak
         \textbf{Hipoteza: } Temperatura startowa powinna być stosunkowo wysoka
         więc wraz ze wzrostem wyniki powinny się poprawiać.\linebreak
         \textbf{Badania: } Dla każdej instancji testuje wszystkie 5 wartości. 
         Żeby otrzymać dobrą próbkę badanie powtarzam cztero krotnie dla każdej 
         instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak
-        
-        \textbf{Wnioski: } 
-      \subsection{Podsumowanie}ok 8,5h
-
+        \FloatBarrier
+        \input{src/tables/AnStart.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAnStart.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symStart}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAnStart.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymStart}
+        \end{figure}
+        \FloatBarrier
+        \input{src/tables/AnStartTime.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAnStartTime.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symStartT}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAnStartTime.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymStartT}
+        \end{figure}
+        \FloatBarrier
+        \textbf{Wnioski: } Podobnie jak ostatnio różnica między błędami dla kolejnych
+        wartości początkowych. Tym razem czas znalezienia rozwiązania też nie różnił się
+        znacząco ok 0.01s.        
+      \subsection{Podsumowanie}
+        Różnice które powstają przy stosowani różnych parametrów są znacznie lepiej widoczne 
+        kiedy badamy czas otrzymania najlepszego wyniku. Niestety błąd wzgledny dla tego algorytmu
+        możliwe że w implementacji pojawiły się błędy.
     \section{Algorytm mrówkowy}
       \subsection{Opis Algorytmu}
         Algorytm mrówkwy jest algorytmem metahurystycznym który modeluje zachowanie mrówek.
@@ -288,8 +469,41 @@
         \textbf{Badania: } Dla obu metod wykonuje badania dla każdej z 8 
         instancji, powtarzam je cztero krotnie by otrzymać dobrą próbkę.
         Więc wykonuje (4*ASYM + 4*ASM)*2 * 4 = 64 badań.\linebreak
-
-        \textbf{Wnioski: } 
+        \FloatBarrier
+        \input{src/tables/AoFeroMet.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAoFeroMet.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symFero}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAoFeroMet.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymFero}
+        \end{figure}
+        \FloatBarrier
+        \input{src/tables/AoFeroMetTime.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAoFeroMetTime.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symFeroT}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAoFeroMetTime.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymFeroT}
+        \end{figure}
+        \FloatBarrier
+        * Niebieskie punkty to wyniki dla Swap a zielone dla Insert\linebreak
+        \textbf{Wnioski: } Dla obu zaimplementowanych algorytmów (CAS i QAS) błąd względny
+        jest bardzo podobny (w większości przypadków taki sam). Czas potrzebny na znalezienie
+        rozwiązania rośnie wykładniczo.
       \subsection{Badanie wpływu wartości rho}
         Wartość $\rho$ to współczynnik parowania feromonów. Po tym jak wszystkie
         mrówki wybrały swoją ścieżkę wartości feromonów są przemnażane przez $\rho$.
@@ -301,8 +515,39 @@
         \textbf{Badania: } Dla każdej instancji testuje wszystkie 5 wartości. 
         Żeby otrzymać dobrą próbkę badanie powtarzam cztero krotnie dla każdej 
         instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak
-
-        \textbf{Wnioski: } 
+        \FloatBarrier
+        \input{src/tables/AoRho.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAoRho.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symRho}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAoRho.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymRho}
+        \end{figure}
+        \FloatBarrier
+        \input{src/tables/AoRhoTime.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAoRhoTime.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symRhoT}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAoRhoTime.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymRhoT}
+        \end{figure}
+        \FloatBarrier
+        \textbf{Wnioski: } W otrzymanych wynikach nie ma większych różnic dla różnych wartości rho.
+        Może to być spowodowane miejscem w którym feromony parują (Po wyliczeniu ścieżek dla wszyskich mrówek).
       \subsection{Badanie wpływu stosunku alfy do bety}
         W mojej implementacji używam tablic decyzyjnych gdzie \[ A_i = [a_{ij} (t)]_{Ni}\]
         Wartości $A_i$ wyliczam na początku nowego pokolenia. Natomiast elementy $a_{ij}$
@@ -318,10 +563,43 @@
         \textbf{Badania: } Dla każdej instancji testuje wszystkie 5 wartości. 
         Żeby otrzymać dobrą próbkę badanie powtarzam cztero krotnie dla każdej 
         instancji. Dla tego wykonuję (4*ASYM + 4*ASM)*5 * 4 = 160 badań.\linebreak
-        
-        \textbf{Wnioski: } 
+        \FloatBarrier
+        \input{src/tables/AoAB.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAoAB.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symAB}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAoAB.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymAB}
+        \end{figure}
+        \FloatBarrier
+        \input{src/tables/AoABTime.tex}
+        \FloatBarrier
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/symAoABTime.png}
+          \caption{Wyniki badań dla macierzy symetrycznych}
+          \label{fig:symABT}
+        \end{figure}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=\textwidth]{src/plots/asymAoABTime.png}
+          \caption{Wyniki badań dla macierzy asymetrycznych}
+          \label{fig:asymABT}
+        \end{figure}
+        \FloatBarrier
+        \textbf{Wnioski: } Podobnie jak w przypadku badania 5.4 nie ma większych różnic
+        dla różnych stosunków alfy do bety. Możliwe że podczas implementacji wzoru 
+        popełniłem błąd. Możliwe też że prawdopodobieństwo wyboru nie działa poprawnie.
+        Podczas testów miałem z tym wiele problemów, obene rozwiązanie działa ale może mieć problemy.
       \subsection{Podsumowanie}
-
+        Zaimplementowany algorytm wydaje się działać poprawnie ale występuje sporo problemów.
     \section{Wnioski z całego projektu}
 
 
