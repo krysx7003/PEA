@@ -2,7 +2,7 @@
 
 Do projektu załączona była instrukcja [PEA projekt-2.pdf](<PEA projekt-2.pdf>). Dostęp do pliku był ograniczony czasowo, ostatnia wersja to 5(Chyba).
 
-1. \Proj_1
+## 1. \Proj_1
     * Implementacja algorytmów do rozwiązywania TSP
         1. Losowy
         2. NN
@@ -14,7 +14,7 @@ Do projektu załączona była instrukcja [PEA projekt-2.pdf](<PEA projekt-2.pdf>
     * Użyto biblioteki nlohmann/json do czytania i obsługi plików *.json
     * Badania czasu wykonania poszczególnych algorytmów
     * Instancje losowe (Własne)
-2. \Proj_2
+## 2. \Proj_2
     * Implementacja algorytmów do rozwiązywania TSP
         1. Tabu search
         2. Simulated annealing
@@ -26,9 +26,9 @@ Do projektu załączona była instrukcja [PEA projekt-2.pdf](<PEA projekt-2.pdf>
     * Instancje przechowywane w \TspLib\SYM lub \TspLib\ASYM 
     * Do wygenerowania plików *.txt (Potrzebnych do poprawnego funkcjonowania programu) wykożystano odpowiedniego konwertera w \TspLib
     * Instancja kro124p.atsp zawiera 100 wierzchołków. Więc plik .txt wygenerowany z tej instancji nazywa się kro100p.txt (Nie kro124.txt) 
-3. KaplonKiller.cpp
+## 3. KaplonKiller.cpp
     * Opus magnum spierdolenia XD
-4. AlgorytmTS.cpp
+## 4. AlgorytmTS.cpp
     * Przykład algorytmu Tabu Search
-5. AntColony.h i tmp.py
+## 5. AntColony.h i tmp.py
     * Przykład algorytmu Mrówkowego
