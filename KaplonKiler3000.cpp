@@ -1,4 +1,4 @@
-#include <windows.h>
+#include <unistd.h>
 #include <iostream>
 #include <iomanip> 
 using namespace std;
@@ -33,13 +33,14 @@ int main(){
         cout<<"Iteracja nr "<<count<<"\n";
         for(int i =0;i<=width;i++){
             printBar((double)i/width,"Ladowanie menu...\t");
-            Sleep(500);
+            sleep(500);
+            
             if(i==width-1 && freeme !=1){
                 clear();
                 for(int j=0;j<width-1;j++){
                     i--;
                     printBar((double)i/width,"Backtracking\t\t");
-                    Sleep(500);
+                    sleep(500);
                 }
                 clear();
                 freeme++;
