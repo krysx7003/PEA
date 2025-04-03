@@ -1,0 +1,51 @@
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{Symetryczne} & \multicolumn{3}{c}{Asymetryczne} \\
+Rozmiar/Gęstość & 30\% & 60\% & 100\% & 30\% & 60\% & 100\% \\
+\midrule
+8 & 0.000584 & 0.001455 & 0.002964 & 0.000594 & 0.005930 & 0.006764 \\
+9 & 0.022613 & 0.012452 & 0.000671 & 0.007114 & 0.047743 & 0.002322 \\
+10 & 0.125065 & 0.106813 & 0.049782 & 0.383290 & 0.478340 & 0.565129 \\
+11 & 0.658866 & 1.088163 & 2.050599 & 4.200745 & 5.931383 & 0.191078 \\
+12 & 2.315414 & 5.455512 & 4.550668 & 50.459794 & 63.293619 & 25.105833 \\
+\bottomrule
+\end{tabular}
+\caption{Czasy wykonania algorytmu dla macierzy symetrycznych i niesymetrycznych}
+\label{tab:mean_time_brute-forceresoult}
+\end{table}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{Symetryczne} & \multicolumn{3}{c}{Asymetryczne} \\
+Rozmiar/Gęstość & 30\% & 60\% & 100\% & 30\% & 60\% & 100\% \\
+\midrule
+8 & 30867 & 22264 & 12806 & 28719 & 16035 & 18843 \\
+9 & 23923 & 28513 & 7129 & 26942 & 13728 & 17589 \\
+10 & 24562 & 39212 & 16436 & 26726 & 14207 & 14841 \\
+11 & 40077 & 32101 & 15619 & 35236 & 19117 & 13657 \\
+12 & 39712 & 26906 & 17016 & 31919 & 13727 & 12343 \\
+\bottomrule
+\end{tabular}
+\caption{Wyniki algorytmu dla macierzy symetrycznych i niesymetrycznych}
+\label{tab:resoult_brute-forceresoult}
+\end{table}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{Symetryczne} & \multicolumn{3}{c}{Asymetryczne} \\
+Rozmiar/Gęstość & 30\% & 60\% & 100\% & 30\% & 60\% & 100\% \\
+\midrule
+8 & 0.000000 & 0.000000 & 0.000000 & 0.000000 & 0.020000 & 0.090000 \\
+9 & 0.000000 & 0.000000 & 0.000000 & 0.000000 & 0.100000 & 0.000000 \\
+10 & 0.000000 & 0.000000 & 0.000000 & 0.090000 & 0.150000 & 0.000000 \\
+11 & 0.000000 & 0.000000 & 0.000000 & 0.110000 & 0.060000 & 0.000000 \\
+12 & 0.000000 & 0.000000 & 0.000000 & 0.030000 & 0.130000 & 0.000000 \\
+\bottomrule
+\end{tabular}
+\caption{Błędy w wynikach algorytmu dla macierzy symetrycznych i niesymetrycznych}
+\label{tab:error_brute-forceresoult}
+\end{table}
